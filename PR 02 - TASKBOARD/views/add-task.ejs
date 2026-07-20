@@ -1,0 +1,29 @@
+<%- include("partials/header") %>
+
+<div class="col-md-6 mx-auto">
+
+<div class="card p-4">
+
+<h3>Add Task</h3>
+
+<form method="POST" action="/add">
+
+<input name="title" class="form-control mb-2" placeholder="Task Title">
+
+<textarea name="description" class="form-control mb-2" placeholder="Description"></textarea>
+
+<select name="priority" class="form-control mb-2">
+    <option>High</option>
+    <option>Medium</option>
+    <option>Low</option>
+</select>
+
+<button class="btn btn-success w-100">Save Task</button>
+
+</form>
+
+</div>
+
+</div>
+
+<%- include("partials/footer") %>
