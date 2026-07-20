@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Movie - MovieVault</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="brand">🎬 Movie<span>Vault</span></div>
+    <a href="/" class="btn btn-secondary">← Back to List</a>
+  </nav>
+
+  <div class="container">
+    <div class="form-wrapper">
+      <h1>Edit Movie</h1>
+      <p class="subtitle">Update the details of "<%= movie.title %>".</p>
+
+      <% if (movie.poster) { %>
+        <div class="current-poster">
+          <img src="<%= movie.poster %>" alt="<%= movie.title %>" />
+          <div>
+            <div style="font-size:13px; color: var(--text-secondary);">Current poster</div>
+            <div style="font-size:14px; font-weight:600;"><%= movie.title %></div>
+          </div>
+        </div>
+      <% } %>
+
+      <form action="/edit/<%= movie._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="title">Movie Title</label>
+          <input type="text" id="title" name="title" value="<%= movie.title %>" required />
+        </div>
+
+        <div class="form-group">
+          <label for="genre">Genre</label>
+          <input type="text" id="genre" name="genre" value="<%= movie.genre %>" required />
+        </div>
+
+        <div class="form-group">
+          <label for="releaseYear">Release Year</label>
+          <input type="number" id="releaseYear" name="releaseYear" value="<%= movie.releaseYear %>" min="1900" max="2100" required />
+        </div>
+
+        <div class="form-group">
+          <label for="poster">Replace Poster (optional)</label>
+          <div class="file-drop">
+            <span id="fileLabel">Click or drag a new image here to replace</span>
+            <input type="file" id="poster" name="poster" accept="image/*" onchange="document.getElementById('fileLabel').innerText = this.files[0] ? this.files[0].name : 'Click or drag a new image here to replace';" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <a href="/" class="btn btn-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary">Update Movie</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer">Movie Management System &mdash; Node.js · Express · EJS · MongoDB · Multer</div>
+
+</body>
+</html>

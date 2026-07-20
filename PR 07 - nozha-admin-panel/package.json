@@ -1,0 +1,28 @@
+{
+  "name": "nozha-admin-panel",
+  "version": "1.0.0",
+  "description": "Admin panel with Node.js, Express, MongoDB, EJS, cookie-based auth (Passport + bcrypt), Multer image uploads and blog CRUD, using the Nozha RTL dashboard UI.",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.19.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.9.5",
+    "multer": "^2.2.0",
+    "nodemailer": "^9.0.3",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

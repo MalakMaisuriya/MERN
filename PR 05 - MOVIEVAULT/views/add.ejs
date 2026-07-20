@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Movie - MovieVault</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="brand">🎬 Movie<span>Vault</span></div>
+    <a href="/" class="btn btn-secondary">← Back to List</a>
+  </nav>
+
+  <div class="container">
+    <div class="form-wrapper">
+      <h1>Add New Movie</h1>
+      <p class="subtitle">Fill in the details below to add a movie to your collection.</p>
+
+      <form action="/add" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="title">Movie Title</label>
+          <input type="text" id="title" name="title" placeholder="e.g. Inception" required />
+        </div>
+
+        <div class="form-group">
+          <label for="genre">Genre</label>
+          <input type="text" id="genre" name="genre" placeholder="e.g. Sci-Fi, Thriller" required />
+        </div>
+
+        <div class="form-group">
+          <label for="releaseYear">Release Year</label>
+          <input type="number" id="releaseYear" name="releaseYear" placeholder="e.g. 2010" min="1900" max="2100" required />
+        </div>
+
+        <div class="form-group">
+          <label for="poster">Poster Image</label>
+          <div class="file-drop">
+            <span id="fileLabel">Click or drag an image here to upload</span>
+            <input type="file" id="poster" name="poster" accept="image/*" onchange="document.getElementById('fileLabel').innerText = this.files[0] ? this.files[0].name : 'Click or drag an image here to upload';" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <a href="/" class="btn btn-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary">Save Movie</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer">Movie Management System &mdash; Node.js · Express · EJS · MongoDB · Multer</div>
+
+</body>
+</html>

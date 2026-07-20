@@ -1,0 +1,123 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <%- include('partials/head') %>
+</head>
+
+<body class="">
+    <div class="bmd-layout-container bmd-drawer-f-l avam-container animated bmd-drawer-in">
+        <%- include('partials/header') %>
+        <%- include('partials/sidebar', { active: 'profile' }) %>
+
+        <main class="bmd-layout-content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="page-header breadcrumb-header p-3 mr-2 ml-2 m-2">
+                        <div class="row align-items-end ">
+                            <div class="col-lg-8">
+                                <div class="page-header-title text-left-rtl">
+                                    <div class="d-inline">
+                                        <h3 class="lite-text ">Profile</h3>
+                                        <span class="lite-text text-gray">Manage your details</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item "><a href="/"><i class="fas fa-home"></i></a></li>
+                                    <li class="breadcrumb-item active">Profile</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Profile photo -->
+                    <div class="col-md-4">
+                        <div class="jumbotron shade pt-4 text-center">
+                            <h4>Profile Photo</h4>
+                            <hr class="hr-dashed">
+                            <img src="<%= currentUser.avatar %>" alt="profile"
+                                 class="rounded-circle mb-3" style="width:150px;height:150px;object-fit:cover;">
+                            <form action="/profile/photo" method="POST" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <input type="file" class="form-control-file" name="avatar" accept="image/*" required>
+                                </div>
+                                <button type="submit" class="btn shade f-primary btn-block">Change Photo</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Edit details -->
+                    <div class="col-md-8">
+                        <div class="jumbotron shade pt-4">
+                            <h4>Edit Details</h4>
+                            <hr class="hr-dashed">
+                            <form action="/profile" method="POST">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="name">First Name</label>
+                                        <input type="text" class="form-control" id="name" name="name"
+                                               value="<%= currentUser.name %>" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="surname">Surname</label>
+                                        <input type="text" class="form-control" id="surname" name="surname"
+                                               value="<%= currentUser.surname || '' %>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email address</label>
+                                    <input type="email" class="form-control" id="email"
+                                           value="<%= currentUser.email %>" disabled>
+                                    <small class="form-text text-muted">Email cannot be changed.</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <textarea class="form-control" id="address" name="address" rows="3"><%= currentUser.address || '' %></textarea>
+                                </div>
+                                <button type="submit" class="btn shade f-primary">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Change password -->
+                <div class="row">
+                    <div class="col-md-8 mw-center">
+                        <div class="jumbotron shade pt-4">
+                            <h4>Change Password</h4>
+                            <hr class="hr-dashed">
+                            <form action="/change-password" method="POST">
+                                <div class="form-group">
+                                    <label for="currentPassword">Current Password</label>
+                                    <input type="password" class="form-control" id="currentPassword"
+                                           name="currentPassword" placeholder="Current password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="newPassword">New Password</label>
+                                    <input type="password" class="form-control" id="newPassword" name="newPassword"
+                                           placeholder="New password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm New Password</label>
+                                    <input type="password" class="form-control" id="confirmPassword"
+                                           name="confirmPassword" placeholder="Confirm new password" required>
+                                </div>
+                                <button type="submit" class="btn shade f-danger">Update Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <%- include('partials/scripts') %>
+</body>
+
+</html>

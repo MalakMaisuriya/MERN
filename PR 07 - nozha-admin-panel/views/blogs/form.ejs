@@ -1,0 +1,80 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <%- include('../partials/head') %>
+</head>
+
+<body class="">
+    <div class="bmd-layout-container bmd-drawer-f-l avam-container animated bmd-drawer-in">
+        <%- include('../partials/header') %>
+        <%- include('../partials/sidebar', { active: blog ? 'blogs' : 'new-blog' }) %>
+
+        <main class="bmd-layout-content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="page-header breadcrumb-header p-3 mr-2 ml-2 m-2">
+                        <div class="row align-items-end ">
+                            <div class="col-lg-8">
+                                <div class="page-header-title text-left-rtl">
+                                    <div class="d-inline">
+                                        <h3 class="lite-text "><%= title %></h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item "><a href="/"><i class="fas fa-home"></i></a></li>
+                                    <li class="breadcrumb-item "><a href="/blogs">Blogs</a></li>
+                                    <li class="breadcrumb-item active"><%= title %></li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="jumbotron shade pt-4">
+                    <div class="col-md-8 mw-center">
+                        <form action="<%= blog ? '/blogs/' + blog._id + '?_method=PUT' : '/blogs' %>"
+                              method="POST" enctype="multipart/form-data">
+
+                            <div class="form-group">
+                                <label for="title">Blog Title</label>
+                                <input type="text" class="form-control" id="title" name="title"
+                                       value="<%= blog ? blog.title : '' %>" placeholder="Write blog title" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="content">Content</label>
+                                <textarea class="form-control" id="content" name="content" rows="8"
+                                          placeholder="Write blog content..." required><%= blog ? blog.content : '' %></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="image">Cover Image</label>
+                                <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
+                                <% if (blog && blog.image) { %>
+                                    <div class="mt-2">
+                                        <img src="<%= blog.image %>" alt="current image" height="100">
+                                        <small class="text-muted d-block">Selecting a new image will replace this one.</small>
+                                    </div>
+                                <% } %>
+                            </div>
+
+                            <button type="submit" class="btn shade f-primary">
+                                <%= blog ? 'Update Blog' : 'Create Blog' %>
+                            </button>
+                            <a href="/blogs" class="btn shade f-secondary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <%- include('../partials/scripts') %>
+</body>
+
+</html>

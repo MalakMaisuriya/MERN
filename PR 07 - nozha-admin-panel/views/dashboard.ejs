@@ -1,0 +1,108 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <%- include('partials/head') %>
+</head>
+
+<body class="">
+    <div class="bmd-layout-container bmd-drawer-f-l avam-container animated bmd-drawer-in">
+        <%- include('partials/header') %>
+        <%- include('partials/sidebar', { active: 'dashboard' }) %>
+
+        <main class="bmd-layout-content">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="page-header breadcrumb-header p-3 mr-2 ml-2 m-2">
+                        <div class="row align-items-end ">
+                            <div class="col-lg-8">
+                                <div class="page-header-title text-left-rtl">
+                                    <div class="d-inline">
+                                        <h3 class="lite-text ">Dashboard</h3>
+                                        <span class="lite-text text-gray">Welcome back, <%= currentUser.name %></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item "><a href="/"><i class="fas fa-home"></i></a></li>
+                                    <li class="breadcrumb-item active">Dashboard</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card shade p-3 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-newspaper fa-2x c-main mr-3"></i>
+                                <div>
+                                    <h3 class="m-0"><%= totalBlogs %></h3>
+                                    <span class="text-muted">Total Blogs</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card shade p-3 mb-3">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-user-edit fa-2x c-main mr-3"></i>
+                                <div>
+                                    <h3 class="m-0"><%= myBlogs %></h3>
+                                    <span class="text-muted">My Blogs</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card shade p-3 mb-3">
+                            <div class="d-flex align-items-center">
+                                <a href="/blogs/new" class="btn shade f-primary btn-block m-0">
+                                    <i class="fas fa-plus-circle mr-2"></i>Add New Blog
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="jumbotron shade pt-4">
+                    <h4>Recent Blogs</h4>
+                    <hr class="hr-dashed">
+                    <% if (recentBlogs.length === 0) { %>
+                        <p class="text-muted">No blogs created yet. <a href="/blogs/new">Create the first blog</a>.</p>
+                    <% } else { %>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Author</th>
+                                        <th>Created</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% recentBlogs.forEach(blog => { %>
+                                        <tr>
+                                            <td><%= blog.title %></td>
+                                            <td><%= blog.author ? blog.author.name : '—' %></td>
+                                            <td><%= blog.createdAt.toDateString() %></td>
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <a href="/blogs" class="btn shade f-primary">View All Blogs</a>
+                    <% } %>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <%- include('partials/scripts') %>
+</body>
+
+</html>

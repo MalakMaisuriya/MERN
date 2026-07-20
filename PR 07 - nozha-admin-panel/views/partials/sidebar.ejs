@@ -1,0 +1,90 @@
+<div id="dw-s1" class="bmd-layout-drawer bg-faded">
+    <div class="container-fluid side-bar-container">
+        <header class="pb-0">
+            <a class="navbar-brand" href="/">
+                <object class="side-logo" data="/svg/logo-8.svg" type="image/svg+xml"></object>
+            </a>
+        </header>
+        <p class="side-comment">Main</p>
+        <li class="side a-collapse short">
+            <a href="/" class="side-item <%= active === 'dashboard' ? 'selected' : '' %>">
+                <i class="fas fa-tachometer-alt mr-1"></i>Dashboard
+            </a>
+        </li>
+        <li class="side a-collapse short">
+            <a href="/blogs" class="side-item <%= active === 'blogs' ? 'selected' : '' %>">
+                <i class="fas fa-newspaper mr-1"></i>Blogs
+            </a>
+        </li>
+        <li class="side a-collapse short">
+            <a href="/blogs/new" class="side-item <%= active === 'new-blog' ? 'selected' : '' %>">
+                <i class="fas fa-plus-circle mr-1"></i>Add Blog
+            </a>
+        </li>
+
+        <p class="side-comment">Customize</p>
+        <ul class="side a-collapse">
+            <a class="ul-text"><i class="fas fa-cog mr-1"></i> Customize
+                <i class="fas fas fa-chevron-down arrow"></i></a>
+            <div class="side-item-container">
+                <li class="side-item"><a href="/ui/color"><i class="fas fa-angle-right mr-2"></i>Color</a></li>
+                <li class="side-item"><a href="/ui/typo"><i class="fas fa-angle-right mr-2"></i>Typography</a></li>
+                <li class="side-item"><a href="/ui/dark-mode"><i class="fas fa-angle-right mr-2"></i>Dark Mode</a></li>
+                <li class="side-item"><a href="/ui/rtl"><i class="fas fa-angle-right mr-2"></i>Rtl</a></li>
+            </div>
+        </ul>
+
+        <p class="side-comment">Element</p>
+        <li class="side a-collapse short">
+            <a href="/ui/animation" class="side-item"><i class="fas fa-fan fa-spin mr-1"></i>Animation</a>
+        </li>
+        <li class="side a-collapse short">
+            <a href="/ui/Icon" class="side-item"><i class="fas fa-icons mr-1"></i>Icon</a>
+        </li>
+
+        <ul class="side a-collapse short">
+            <a class="ul-text"><i class="fas fa-cube mr-1"></i> Base Component
+                <i class="fas fas fa-chevron-down arrow"></i></a>
+            <div class="side-item-container hide animated">
+                <li class="side-item"><a href="/ui/alert"><i class="fas fa-angle-right mr-2"></i>Alert</a></li>
+                <li class="side-item"><a href="/ui/badge"><i class="fas fa-angle-right mr-2"></i>Badge</a></li>
+                <li class="side-item"><a href="/ui/breadcrumb"><i class="fas fa-angle-right mr-2"></i>Breadcrumb</a></li>
+                <li class="side-item"><a href="/ui/button"><i class="fas fa-angle-right mr-2"></i>Button</a></li>
+                <li class="side-item"><a href="/ui/card"><i class="fas fa-angle-right mr-2"></i>Card</a></li>
+                <li class="side-item"><a href="/ui/collapse"><i class="fas fa-angle-right mr-2"></i>Collapse</a></li>
+                <li class="side-item"><a href="/ui/Input"><i class="fas fa-angle-right mr-2"></i>Input</a></li>
+                <li class="side-item"><a href="/ui/jumborton"><i class="fas fa-angle-right mr-2"></i>Jumborton</a></li>
+                <li class="side-item"><a href="/ui/pagination"><i class="fas fa-angle-right mr-2"></i>Pagination</a></li>
+                <li class="side-item"><a href="/ui/progress"><i class="fas fa-angle-right mr-2"></i>Progress</a></li>
+            </div>
+        </ul>
+
+        <ul class="side a-collapse short">
+            <a class="ul-text"><i class="fas fa-layer-group mr-1"></i>Extra Component
+                <i class="fas fas fa-chevron-down arrow"></i></a>
+            <div class="side-item-container hide animated">
+                <li class="side-item"><a href="/ui/modal"><i class="fas fa-angle-right mr-2"></i>Modal</a></li>
+                <li class="side-item"><a href="/ui/toast"><i class="fas fa-angle-right mr-2"></i>Toast</a></li>
+                <li class="side-item"><a href="/ui/widget"><i class="fas fa-angle-right mr-2"></i>Widget</a></li>
+                <li class="side-item"><a href="/ui/Chart"><i class="fas fa-angle-right mr-2"></i>Chart</a></li>
+            </div>
+        </ul>
+
+        <li class="side a-collapse short">
+            <a href="/ui/dark" class="side-item"><i class="fas fa-moon mr-1"></i>Dark Dashboard</a>
+        </li>
+        <li class="side a-collapse short">
+            <a href="/ui/fa" class="side-item"><i class="fas fa-language mr-1"></i>Persian</a>
+        </li>
+
+        <p class="side-comment">Account</p>
+        <li class="side a-collapse short">
+            <a href="/profile" class="side-item <%= active === 'profile' ? 'selected' : '' %>">
+                <i class="far fa-user mr-1"></i>Profile
+            </a>
+        </li>
+        <li class="side a-collapse short">
+            <a href="/logout" class="side-item"><i class="fas fa-sign-out-alt mr-1"></i>Logout</a>
+        </li>
+    </div>
+</div>

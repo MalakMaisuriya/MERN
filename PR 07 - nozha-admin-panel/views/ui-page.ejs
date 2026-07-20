@@ -1,0 +1,21 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <%- include('partials/head') %>
+</head>
+
+<body class="">
+    <div class="bmd-layout-container bmd-drawer-f-l avam-container animated bmd-drawer-in">
+        <%- include('partials/header') %>
+        <%- include('partials/sidebar', { active: 'ui-' + page }) %>
+
+        <main class="bmd-layout-content">
+            <%- include('ui/' + page) %>
+        </main>
+    </div>
+
+    <%- include('partials/scripts') %>
+</body>
+
+</html>

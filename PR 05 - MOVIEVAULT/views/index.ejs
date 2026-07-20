@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Movie Management System</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="brand">🎬 Movie<span>Vault</span></div>
+    <a href="/add" class="btn btn-primary">+ Add Movie</a>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <div>
+        <h1>Movie Collection</h1>
+        <p><%= movies.length %> movie<%= movies.length !== 1 ? "s" : "" %> in your library</p>
+      </div>
+    </div>
+
+    <% if (movies.length === 0) { %>
+      <div class="empty-state">
+        <h2>No movies yet</h2>
+        <p>Start building your collection by adding your first movie.</p>
+        <br />
+        <a href="/add" class="btn btn-primary">+ Add Movie</a>
+      </div>
+    <% } else { %>
+      <div class="movie-grid">
+        <% movies.forEach(function(movie) { %>
+          <div class="movie-card">
+            <% if (movie.poster) { %>
+              <img class="movie-poster" src="<%= movie.poster %>" alt="<%= movie.title %>" />
+            <% } else { %>
+              <div class="movie-poster placeholder">No Poster</div>
+            <% } %>
+            <div class="movie-info">
+              <h3><%= movie.title %></h3>
+              <div class="movie-meta">
+                <span class="badge"><%= movie.genre %></span>
+                <span class="badge year"><%= movie.releaseYear %></span>
+              </div>
+            </div>
+            <div class="movie-actions">
+              <a href="/edit/<%= movie._id %>" class="btn btn-secondary">Edit</a>
+              <form action="/delete/<%= movie._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete this movie?');" style="flex:1;">
+                <button type="submit" class="btn btn-danger" style="width:100%;">Delete</button>
+              </form>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="footer">Movie Management System &mdash; Node.js · Express · EJS · MongoDB · Multer</div>
+
+</body>
+</html>
