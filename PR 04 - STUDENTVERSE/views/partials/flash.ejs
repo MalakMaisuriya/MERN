@@ -1,0 +1,11 @@
+<div class="toast-stack" aria-live="polite" aria-atomic="true">
+  <% successMessages.forEach((message) => { %>
+    <div class="toast success"><i class="bi bi-check-circle-fill"></i><span><%= message %></span></div>
+  <% }) %>
+  <% errorMessages.forEach((message) => { %>
+    <div class="toast error"><i class="bi bi-exclamation-triangle-fill"></i><span><%= message %></span></div>
+  <% }) %>
+  <% infoMessages.forEach((message) => { %>
+    <div class="toast info"><i class="bi bi-info-circle-fill"></i><span><%= message %></span></div>
+  <% }) %>
+</div>

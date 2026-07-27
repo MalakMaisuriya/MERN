@@ -1,0 +1,88 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+<main class="page-shell">
+  <section class="list-header">
+    <div>
+      <p class="eyebrow">Student directory</p>
+      <h1>Students</h1>
+      <p><%= pagination.total %> record<%= pagination.total === 1 ? '' : 's' %> found.</p>
+    </div>
+    <a class="primary-button" href="/students/new"><i class="bi bi-person-plus-fill"></i> Add student</a>
+  </section>
+
+  <form class="filter-bar" method="GET" action="/students">
+    <div class="search-field">
+      <i class="bi bi-search"></i>
+      <input name="search" type="search" value="<%= query.search || '' %>" placeholder="Search name, email or enrollment">
+    </div>
+    <select name="course" aria-label="Filter by course">
+      <option value="">All courses</option>
+      <% options.courses.forEach((course) => { %>
+        <option value="<%= course %>" <%= query.course === course ? 'selected' : '' %>><%= course %></option>
+      <% }) %>
+    </select>
+    <select name="status" aria-label="Filter by status">
+      <option value="">All status</option>
+      <% options.statuses.forEach((status) => { %>
+        <option value="<%= status %>" <%= query.status === status ? 'selected' : '' %>><%= status %></option>
+      <% }) %>
+    </select>
+    <select name="sort" aria-label="Sort students">
+      <option value="newest" <%= query.sort === 'newest' ? 'selected' : '' %>>Newest first</option>
+      <option value="oldest" <%= query.sort === 'oldest' ? 'selected' : '' %>>Oldest first</option>
+      <option value="name_asc" <%= query.sort === 'name_asc' ? 'selected' : '' %>>Name A-Z</option>
+      <option value="name_desc" <%= query.sort === 'name_desc' ? 'selected' : '' %>>Name Z-A</option>
+      <option value="semester_asc" <%= query.sort === 'semester_asc' ? 'selected' : '' %>>Semester low-high</option>
+      <option value="semester_desc" <%= query.sort === 'semester_desc' ? 'selected' : '' %>>Semester high-low</option>
+    </select>
+    <button class="secondary-button" type="submit"><i class="bi bi-funnel"></i> Apply</button>
+    <a class="ghost-button" href="/students">Reset</a>
+  </form>
+
+  <% if (students.length) { %>
+    <section class="student-grid">
+      <% students.forEach((student) => { %>
+        <article class="student-card">
+          <div class="student-card-top">
+            <span class="avatar"><%= student.name.charAt(0).toUpperCase() %></span>
+            <div>
+              <h2><%= student.name %></h2>
+              <p><%= student.enrollmentNumber %></p>
+            </div>
+            <span class="status-pill <%= student.status %>"><%= student.status %></span>
+          </div>
+          <dl class="student-meta">
+            <div><dt>Email</dt><dd><%= student.email %></dd></div>
+            <div><dt>Course</dt><dd><%= student.course %></dd></div>
+            <div><dt>Semester</dt><dd><%= student.semester %></dd></div>
+            <div><dt>Grade</dt><dd><%= student.grade %></dd></div>
+          </dl>
+          <div class="card-actions">
+            <a class="icon-link" href="/students/<%= student._id %>" aria-label="View <%= student.name %>"><i class="bi bi-eye"></i></a>
+            <a class="icon-link" href="/students/<%= student._id %>/edit" aria-label="Edit <%= student.name %>"><i class="bi bi-pencil-square"></i></a>
+            <form action="/students/<%= student._id %>?_method=DELETE" method="POST" data-confirm="Delete <%= student.name %>?">
+              <button class="icon-link danger" type="submit" aria-label="Delete <%= student.name %>"><i class="bi bi-trash3"></i></button>
+            </form>
+          </div>
+        </article>
+      <% }) %>
+    </section>
+
+    <nav class="pagination" aria-label="Students pagination">
+      <% const baseParams = new URLSearchParams(query); %>
+      <% for (let pageNumber = 1; pageNumber <= pagination.pages; pageNumber += 1) { %>
+        <% baseParams.set('page', pageNumber); %>
+        <a class="<%= pageNumber === pagination.page ? 'active' : '' %>" href="/students?<%= baseParams.toString() %>"><%= pageNumber %></a>
+      <% } %>
+    </nav>
+  <% } else { %>
+    <section class="empty-state">
+      <i class="bi bi-person-lines-fill"></i>
+      <h2>No students found</h2>
+      <p>Change filters or create a new profile to start building your directory.</p>
+      <a class="primary-button" href="/students/new"><i class="bi bi-person-plus-fill"></i> Add student</a>
+    </section>
+  <% } %>
+</main>
+<%- include('../partials/flash') %>
+<%- include('../partials/footer') %>

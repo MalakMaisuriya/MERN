@@ -1,0 +1,97 @@
+
+> studentverse@1.0.0 dev
+> node --watch src/server.js
+
+◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
+Failed running 'src/server.js'. Waiting for file changes before restarting...
+Restarting 'src/server.js'
+◇ injected env (0) from .env // tip: ⌘ override existing { override: true }
+MongoDB connected
+StudentVerse running at http://localhost:9094
+[0mGET /login [32m200[0m 48.881 ms - 2084[0m
+[0mGET /login [32m200[0m 10.115 ms - 2084[0m
+[0mGET / [36m302[0m 10.301 ms - 35[0m
+[0mGET /login [32m200[0m 11.376 ms - -[0m
+[0mGET /css/app.css [32m200[0m 8.047 ms - -[0m
+[0mGET /js/app.js [32m200[0m 4.806 ms - -[0m
+[0mPOST /login [36m302[0m 709.952 ms - 39[0m
+[0mGET /dashboard [32m200[0m 131.724 ms - -[0m
+[0mGET /css/app.css [36m304[0m 2.722 ms - -[0m
+[0mGET /js/app.js [36m304[0m 1.382 ms - -[0m
+[0mGET /dashboard [36m302[0m 8.095 ms - 35[0m
+[0mGET /login [32m200[0m 7.564 ms - -[0m
+[0mGET /css/app.css [32m200[0m 3.103 ms - -[0m
+[0mGET /js/app.js [32m200[0m 3.253 ms - -[0m
+[0mGET /favicon.ico [33m404[0m 7.011 ms - -[0m
+[0mPOST /login [33m401[0m 19.654 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.846 ms - -[0m
+[0mGET /js/app.js [36m304[0m 2.405 ms - -[0m
+[0mGET /register [32m200[0m 11.836 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.168 ms - -[0m
+[0mGET /js/app.js [36m304[0m 2.139 ms - -[0m
+[0mPOST /register [33m422[0m 21.737 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.909 ms - -[0m
+[0mGET /js/app.js [36m304[0m 1.085 ms - -[0m
+[0mPOST /register [33m422[0m 11.871 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.121 ms - -[0m
+[0mGET /js/app.js [36m304[0m 1.782 ms - -[0m
+[0mPOST /register [36m302[0m 663.654 ms - 39[0m
+[0mGET /dashboard [32m200[0m 20.177 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.373 ms - -[0m
+[0mGET /js/app.js [36m304[0m 2.696 ms - -[0m
+[0mGET /students/6a675dd42c4483eb943a7ef7 [32m200[0m 181.081 ms - -[0m
+[0mGET /css/app.css [36m304[0m 2.758 ms - -[0m
+[0mGET /js/app.js [36m304[0m 2.588 ms - -[0m
+[0mGET /students/6a675dd42c4483eb943a7ef7/edit [32m200[0m 28.436 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.516 ms - -[0m
+[0mGET /js/app.js [36m304[0m 1.676 ms - -[0m
+[0mGET /students/new [32m200[0m 28.038 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.256 ms - -[0m
+[0mGET /js/app.js [36m304[0m 2.127 ms - -[0m
+[0mPOST /register [36m302[0m 2.604 ms - 39[0m
+[0mGET /dashboard [32m200[0m 22.962 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.122 ms - -[0m
+[0mGET /js/app.js [36m304[0m 1.488 ms - -[0m
+[0mGET /students/new [36m304[0m 16.031 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.420 ms - -[0m
+[0mGET /js/app.js [36m304[0m 1.099 ms - -[0m
+[0mPOST /students [33m422[0m 23.995 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.259 ms - -[0m
+[0mGET /js/app.js [36m304[0m 2.324 ms - -[0m
+[0mPOST /students [31m500[0m 20.928 ms - -[0m
+[0mGET /css/app.css [36m304[0m 0.887 ms - -[0m
+[0mGET /js/app.js [36m304[0m 0.928 ms - -[0m
+[0mGET /dashboard [36m304[0m 27.431 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.109 ms - -[0m
+[0mGET /js/app.js [36m304[0m 0.915 ms - -[0m
+[0mGET /login [32m200[0m 5.845 ms - 2084[0m
+[0mGET /dashboard [32m200[0m 28.826 ms - -[0m
+[0mGET /css/app.css [36m304[0m 0.970 ms - -[0m
+[0mGET /js/app.js [36m304[0m 2.040 ms - -[0m
+[0mGET /dashboard [36m304[0m 21.967 ms - -[0m
+[0mGET /css/app.css [36m304[0m 0.790 ms - -[0m
+[0mGET /js/app.js [36m304[0m 1.502 ms - -[0m
+[0mGET /dashboard [36m304[0m 18.603 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.856 ms - -[0m
+[0mGET /js/app.js [36m304[0m 0.901 ms - -[0m
+[0mGET /login [32m200[0m 6.835 ms - 2084[0m
+[0mGET /students [32m200[0m 23.062 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.376 ms - -[0m
+[0mGET /js/app.js [36m304[0m 1.389 ms - -[0m
+[0mGET /students/6a675dd42c4483eb943a7ef8 [32m200[0m 15.424 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.167 ms - -[0m
+[0mGET /js/app.js [36m304[0m 1.546 ms - -[0m
+[0mGET /students [36m304[0m 18.075 ms - -[0m
+[0mGET /css/app.css [36m304[0m 0.979 ms - -[0m
+[0mGET /js/app.js [36m304[0m 1.920 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.009 ms - -[0m
+[0mGET /students [36m304[0m 14.408 ms - -[0m
+[0mGET /css/app.css [36m304[0m 0.900 ms - -[0m
+[0mGET /js/app.js [36m304[0m 0.914 ms - -[0m
+[0mGET /students [36m304[0m 22.262 ms - -[0m
+[0mGET /css/app.css [36m304[0m 1.499 ms - -[0m
+[0mGET /js/app.js [36m304[0m 0.990 ms - -[0m
+Restarting 'src/server.js'
+◇ injected env (0) from .env // tip: ⌘ suppress logs { quiet: true }
+MongoDB connected
+PR 04 - STUDENTVERSE running at http://localhost:9094
