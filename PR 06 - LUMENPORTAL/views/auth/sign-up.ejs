@@ -1,0 +1,74 @@
+<section class="auth-card glass-panel">
+  <header class="auth-card-header">
+    <h2>Create your account</h2>
+    <p>Join the editorial team on <%= appName %></p>
+  </header>
+
+  <form action="/auth/sign-up" method="POST" class="premium-form" novalidate>
+    <div class="form-group">
+      <label for="fullName">Full name</label>
+      <input
+        type="text"
+        id="fullName"
+        name="fullName"
+        value="<%= formData.fullName || '' %>"
+        autocomplete="name"
+        required
+        class="<%= fieldErrors && fieldErrors.fullName ? 'is-invalid' : '' %>"
+      >
+      <% if (fieldErrors && fieldErrors.fullName) { %>
+        <span class="field-error"><%= fieldErrors.fullName %></span>
+      <% } %>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        value="<%= formData.email || '' %>"
+        autocomplete="email"
+        required
+        class="<%= fieldErrors && fieldErrors.email ? 'is-invalid' : '' %>"
+      >
+      <% if (fieldErrors && fieldErrors.email) { %>
+        <span class="field-error"><%= fieldErrors.email %></span>
+      <% } %>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        autocomplete="new-password"
+        required
+        class="<%= fieldErrors && fieldErrors.password ? 'is-invalid' : '' %>"
+      >
+      <% if (fieldErrors && fieldErrors.password) { %>
+        <span class="field-error"><%= fieldErrors.password %></span>
+      <% } %>
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword">Confirm password</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        name="confirmPassword"
+        autocomplete="new-password"
+        required
+        class="<%= fieldErrors && fieldErrors.confirmPassword ? 'is-invalid' : '' %>"
+      >
+      <% if (fieldErrors && fieldErrors.confirmPassword) { %>
+        <span class="field-error"><%= fieldErrors.confirmPassword %></span>
+      <% } %>
+    </div>
+
+    <button type="submit" class="btn-gradient w-100">Create Account</button>
+  </form>
+
+  <p class="auth-switch">Already registered? <a href="/auth/sign-in">Sign in</a></p>
+</section>

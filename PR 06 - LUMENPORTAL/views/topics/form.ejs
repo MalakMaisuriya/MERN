@@ -1,0 +1,24 @@
+<section class="panel-block glass-panel form-panel">
+  <form action="<%= formAction %>" method="<%= formMethod %>" class="premium-form">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="title">Topic title</label>
+        <input type="text" id="title" name="title" value="<%= topic.title || '' %>" required class="<%= fieldErrors.title ? 'is-invalid' : '' %>">
+        <% if (fieldErrors.title) { %><span class="field-error"><%= fieldErrors.title %></span><% } %>
+      </div>
+      <div class="form-group">
+        <label for="accentColor">Accent color</label>
+        <input type="color" id="accentColor" name="accentColor" value="<%= topic.accentColor || '#6366f1' %>">
+      </div>
+      <div class="form-group span-2">
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="3"><%= topic.description || '' %></textarea>
+        <% if (fieldErrors.description) { %><span class="field-error"><%= fieldErrors.description %></span><% } %>
+      </div>
+    </div>
+    <div class="form-actions">
+      <a href="/console/topics" class="btn-ghost">Cancel</a>
+      <button type="submit" class="btn-gradient">Save Topic</button>
+    </div>
+  </form>
+</section>

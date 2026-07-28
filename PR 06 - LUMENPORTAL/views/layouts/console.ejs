@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head', { pageTitle, metaDescription: 'LumenPortal administration console' }) %>
+  <link rel="stylesheet" href="/css/console.css">
+</head>
+<body class="console-body">
+  <div class="console-shell" data-console-shell>
+    <%- include('../partials/sidebar') %>
+    <div class="console-main">
+      <%- include('../partials/topbar') %>
+      <div class="console-content">
+        <%- include('../partials/flash') %>
+        <%- body %>
+      </div>
+    </div>
+  </div>
+  <div class="sidebar-backdrop" data-sidebar-backdrop hidden></div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+  <script src="/js/console.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<section class="panel-toolbar">
+  <form action="/console/publications" method="GET" class="toolbar-form">
+    <input type="search" name="q" value="<%= filters.q || '' %>" placeholder="Search publications" aria-label="Search publications">
+    <select name="status" aria-label="Filter by status">
+      <option value="">All statuses</option>
+      <option value="draft" <%= filters.status === 'draft' ? 'selected' : '' %>>Draft</option>
+      <option value="published" <%= filters.status === 'published' ? 'selected' : '' %>>Published</option>
+      <option value="archived" <%= filters.status === 'archived' ? 'selected' : '' %>>Archived</option>
+    </select>
+    <select name="topic" aria-label="Filter by topic">
+      <option value="">All topics</option>
+      <% topics.forEach(function(topic) { %>
+        <option value="<%= topic._id %>" <%= filters.topic == topic._id ? 'selected' : '' %>><%= topic.title %></option>
+      <% }) %>
+    </select>
+    <select name="sort" aria-label="Sort publications">
+      <option value="-updatedAt" <%= filters.sort === '-updatedAt' ? 'selected' : '' %>>Recently updated</option>
+      <option value="-createdAt" <%= filters.sort === '-createdAt' ? 'selected' : '' %>>Newest</option>
+      <option value="headline" <%= filters.sort === 'headline' ? 'selected' : '' %>>Headline A–Z</option>
+      <option value="-viewCount" <%= filters.sort === '-viewCount' ? 'selected' : '' %>>Most viewed</option>
+    </select>
+    <button type="submit" class="btn-ghost">Apply</button>
+  </form>
+  <a href="/console/publications/new" class="btn-gradient">New Publication</a>
+</section>
+
+<section class="panel-block glass-panel">
+  <% if (!publications.length) { %>
+    <%- include('../partials/empty-state', {
+      icon: '◫',
+      title: 'No publications found',
+      message: 'Start writing or adjust your filters.',
+      actionUrl: '/console/publications/new',
+      actionLabel: 'Create Publication'
+    }) %>
+  <% } else { %>
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Headline</th>
+            <th>Topic</th>
+            <th>Status</th>
+            <th>Views</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% publications.forEach(function(item) { %>
+            <tr>
+              <td><%= item.headline %></td>
+              <td><span class="topic-pill" style="--pill-color: <%= item.topic?.accentColor || '#6366f1' %>"><%= item.topic?.title %></span></td>
+              <td><span class="status-badge status-<%= item.status %>"><%= item.status %></span></td>
+              <td><%= item.viewCount %></td>
+              <td class="table-actions">
+                <a href="/console/publications/<%= item._id %>/edit" class="action-link">Edit</a>
+                <form action="/console/publications/<%= item._id %>?_method=DELETE" method="POST" class="inline-form" onsubmit="return confirm('Delete this publication?')">
+                  <button type="submit" class="action-link danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <%- include('../partials/pagination', { pagination, filters }) %>
+  <% } %>
+</section>

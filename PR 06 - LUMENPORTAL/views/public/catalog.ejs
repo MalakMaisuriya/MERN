@@ -1,0 +1,56 @@
+<section class="catalog-hero">
+  <div class="container-xl">
+    <h1>Publication Catalog</h1>
+    <p>Search, filter, and discover published campus stories.</p>
+    <form action="/explore" method="GET" class="catalog-filters glass-panel">
+      <div class="filter-field">
+        <label for="q">Search</label>
+        <input type="search" id="q" name="q" value="<%= filters.q || '' %>" placeholder="Search headlines and summaries">
+      </div>
+      <div class="filter-field">
+        <label for="topic">Topic</label>
+        <select id="topic" name="topic">
+          <option value="">All topics</option>
+          <% topics.forEach(function(topic) { %>
+            <option value="<%= topic._id %>" <%= filters.topic == topic._id ? 'selected' : '' %>><%= topic.title %></option>
+          <% }) %>
+        </select>
+      </div>
+      <button type="submit" class="btn-gradient">Apply Filters</button>
+    </form>
+  </div>
+</section>
+
+<section class="section-block">
+  <div class="container-xl">
+    <% if (!publications.length) { %>
+      <%- include('../partials/empty-state', {
+        icon: '◌',
+        title: 'No publications found',
+        message: 'Try adjusting your search or filter criteria.',
+        actionUrl: '/explore',
+        actionLabel: 'Clear Filters'
+      }) %>
+    <% } else { %>
+      <div class="publication-grid">
+        <% publications.forEach(function(item) { %>
+          <article class="publication-card glass-panel">
+            <a href="/read/<%= item.slug %>" class="card-cover">
+              <% if (item.coverImage) { %>
+                <img src="<%= item.coverImage %>" alt="" loading="lazy">
+              <% } else { %>
+                <div class="cover-placeholder" style="--accent: <%= item.topic?.accentColor || '#6366f1' %>"></div>
+              <% } %>
+            </a>
+            <div class="card-body">
+              <span class="topic-pill" style="--pill-color: <%= item.topic?.accentColor || '#6366f1' %>"><%= item.topic?.title %></span>
+              <h3><a href="/read/<%= item.slug %>"><%= item.headline %></a></h3>
+              <p><%= item.summary %></p>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+      <%- include('../partials/pagination', { pagination, filters }) %>
+    <% } %>
+  </div>
+</section>

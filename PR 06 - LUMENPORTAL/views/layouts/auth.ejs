@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head', { pageTitle, metaDescription: 'Secure access to LumenPortal administration' }) %>
+</head>
+<body class="auth-body">
+  <div class="auth-shell">
+    <aside class="auth-showcase glass-panel">
+      <div class="auth-showcase-content">
+        <span class="brand-icon-lg" aria-hidden="true">◈</span>
+        <h1><%= appName %></h1>
+        <p>Premium campus publication management with clarity, control, and craft.</p>
+        <ul class="auth-feature-list">
+          <li>Role-based access control</li>
+          <li>Publication workflow</li>
+          <li>Media vault & analytics</li>
+        </ul>
+      </div>
+    </aside>
+    <main class="auth-main">
+      <%- include('../partials/flash') %>
+      <%- body %>
+    </main>
+  </div>
+</body>
+</html>

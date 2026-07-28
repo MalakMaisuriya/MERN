@@ -1,0 +1,27 @@
+<% if (pagination && pagination.totalPages > 1) { %>
+<% 
+  const buildPageUrl = (pageNumber) => {
+    const params = new URLSearchParams();
+    Object.entries(filters || {}).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && String(value).length > 0) {
+        params.set(key, value);
+      }
+    });
+    params.set('page', pageNumber);
+    return '?' + params.toString();
+  };
+%>
+<nav class="pagination-bar" aria-label="Pagination">
+  <a
+    class="page-btn <%= !pagination.hasPrevious ? 'is-disabled' : '' %>"
+    href="<%= buildPageUrl(pagination.previousPage || 1) %>"
+    aria-disabled="<%= !pagination.hasPrevious %>"
+  >Previous</a>
+  <span class="page-indicator">Page <%= pagination.currentPage %> of <%= pagination.totalPages %></span>
+  <a
+    class="page-btn <%= !pagination.hasNext ? 'is-disabled' : '' %>"
+    href="<%= buildPageUrl(pagination.nextPage || pagination.totalPages) %>"
+    aria-disabled="<%= !pagination.hasNext %>"
+  >Next</a>
+</nav>
+<% } %>

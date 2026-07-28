@@ -1,0 +1,55 @@
+<section class="panel-block glass-panel form-panel">
+  <form action="<%= formAction %>" method="<%= formMethod %>" enctype="multipart/form-data" class="premium-form">
+    <div class="form-grid">
+      <div class="form-group span-2">
+        <label for="headline">Headline</label>
+        <input type="text" id="headline" name="headline" value="<%= publication.headline || '' %>" required class="<%= fieldErrors.headline ? 'is-invalid' : '' %>">
+        <% if (fieldErrors.headline) { %><span class="field-error"><%= fieldErrors.headline %></span><% } %>
+      </div>
+      <div class="form-group span-2">
+        <label for="summary">Summary</label>
+        <textarea id="summary" name="summary" rows="2" required class="<%= fieldErrors.summary ? 'is-invalid' : '' %>"><%= publication.summary || '' %></textarea>
+        <% if (fieldErrors.summary) { %><span class="field-error"><%= fieldErrors.summary %></span><% } %>
+      </div>
+      <div class="form-group span-2">
+        <label for="body">Body content</label>
+        <textarea id="body" name="body" rows="10" required class="<%= fieldErrors.body ? 'is-invalid' : '' %>"><%= publication.body || '' %></textarea>
+        <% if (fieldErrors.body) { %><span class="field-error"><%= fieldErrors.body %></span><% } %>
+      </div>
+      <div class="form-group">
+        <label for="topic">Topic</label>
+        <select id="topic" name="topic" required class="<%= fieldErrors.topic ? 'is-invalid' : '' %>">
+          <option value="">Select topic</option>
+          <% topics.forEach(function(topic) { %>
+            <option value="<%= topic._id %>" <%= String(publication.topic) === String(topic._id) || publication.topic?._id?.toString() === topic._id.toString() ? 'selected' : '' %>><%= topic.title %></option>
+          <% }) %>
+        </select>
+        <% if (fieldErrors.topic) { %><span class="field-error"><%= fieldErrors.topic %></span><% } %>
+      </div>
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="draft" <%= publication.status === 'draft' ? 'selected' : '' %>>Draft</option>
+          <option value="published" <%= publication.status === 'published' ? 'selected' : '' %>>Published</option>
+          <option value="archived" <%= publication.status === 'archived' ? 'selected' : '' %>>Archived</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="readingMinutes">Reading time (minutes)</label>
+        <input type="number" id="readingMinutes" name="readingMinutes" min="1" max="60" value="<%= publication.readingMinutes || 3 %>">
+      </div>
+      <div class="form-group">
+        <label for="coverImage">Cover image</label>
+        <input type="file" id="coverImage" name="coverImage" accept="image/*">
+        <% if (fieldErrors.coverImage) { %><span class="field-error"><%= fieldErrors.coverImage %></span><% } %>
+        <% if (publication.coverImage) { %>
+          <img src="<%= publication.coverImage %>" alt="Current cover" class="preview-thumb">
+        <% } %>
+      </div>
+    </div>
+    <div class="form-actions">
+      <a href="/console/publications" class="btn-ghost">Cancel</a>
+      <button type="submit" class="btn-gradient">Save Publication</button>
+    </div>
+  </form>
+</section>

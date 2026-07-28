@@ -1,0 +1,60 @@
+<section class="panel-toolbar">
+  <form action="/console/topics" method="GET" class="toolbar-form">
+    <input type="search" name="q" value="<%= filters.q || '' %>" placeholder="Search topics" aria-label="Search topics">
+    <select name="sort" aria-label="Sort topics">
+      <option value="-createdAt" <%= filters.sort === '-createdAt' ? 'selected' : '' %>>Newest first</option>
+      <option value="title" <%= filters.sort === 'title' ? 'selected' : '' %>>Title A–Z</option>
+      <option value="-updatedAt" <%= filters.sort === '-updatedAt' ? 'selected' : '' %>>Recently updated</option>
+    </select>
+    <button type="submit" class="btn-ghost">Filter</button>
+  </form>
+  <% if (currentUser.role === 'administrator' || currentUser.role === 'editor') { %>
+    <a href="/console/topics/new" class="btn-gradient">New Topic</a>
+  <% } %>
+</section>
+
+<section class="panel-block glass-panel">
+  <% if (!topics.length) { %>
+    <%- include('../partials/empty-state', {
+      icon: '◎',
+      title: 'No topics yet',
+      message: 'Organize publications by creating editorial topics.',
+      actionUrl: '/console/topics/new',
+      actionLabel: 'Create Topic'
+    }) %>
+  <% } else { %>
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Created By</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% topics.forEach(function(topic) { %>
+            <tr>
+              <td>
+                <span class="topic-dot" style="background: <%= topic.accentColor %>"></span>
+                <%= topic.title %>
+              </td>
+              <td><%= topic.description || '—' %></td>
+              <td><%= topic.createdBy?.fullName %></td>
+              <td class="table-actions">
+                <a href="/console/topics/<%= topic._id %>/edit" class="action-link">Edit</a>
+                <% if (currentUser.role === 'administrator') { %>
+                  <form action="/console/topics/<%= topic._id %>?_method=DELETE" method="POST" class="inline-form" onsubmit="return confirm('Delete this topic?')">
+                    <button type="submit" class="action-link danger">Delete</button>
+                  </form>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <%- include('../partials/pagination', { pagination, filters }) %>
+  <% } %>
+</section>

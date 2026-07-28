@@ -1,0 +1,32 @@
+<aside class="console-sidebar glass-panel" data-sidebar aria-label="Console navigation">
+  <div class="sidebar-brand">
+    <span class="brand-icon" aria-hidden="true">◈</span>
+    <div>
+      <strong><%= appName %></strong>
+      <small>Admin Console</small>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="/console" class="sidebar-link <%= activeNav === 'overview' ? 'is-active' : '' %>">
+      <span class="nav-icon">▣</span> Overview
+    </a>
+    <a href="/console/publications" class="sidebar-link <%= activeNav === 'publications' ? 'is-active' : '' %>">
+      <span class="nav-icon">◫</span> Publications
+    </a>
+    <a href="/console/topics" class="sidebar-link <%= activeNav === 'topics' ? 'is-active' : '' %>">
+      <span class="nav-icon">◎</span> Topics
+    </a>
+    <a href="/console/media" class="sidebar-link <%= activeNav === 'media' ? 'is-active' : '' %>">
+      <span class="nav-icon">▤</span> Media Vault
+    </a>
+    <a href="/console/profile" class="sidebar-link <%= activeNav === 'profile' ? 'is-active' : '' %>">
+      <span class="nav-icon">◉</span> Profile
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="/" class="sidebar-link subtle">View Site</a>
+    <form action="/auth/sign-out" method="POST">
+      <button type="submit" class="sidebar-link subtle w-100 text-start border-0 bg-transparent">Sign Out</button>
+    </form>
+  </div>
+</aside>

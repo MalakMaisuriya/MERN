@@ -1,0 +1,51 @@
+<section class="panel-toolbar">
+  <form action="/console/media" method="GET" class="toolbar-form">
+    <input type="search" name="q" value="<%= filters.q || '' %>" placeholder="Search media" aria-label="Search media">
+    <button type="submit" class="btn-ghost">Search</button>
+  </form>
+</section>
+
+<section class="panel-block glass-panel upload-panel">
+  <h2>Upload Asset</h2>
+  <form action="/console/media" method="POST" enctype="multipart/form-data" class="premium-form upload-form">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="asset">Image file</label>
+        <input type="file" id="asset" name="asset" accept="image/*" required>
+      </div>
+      <div class="form-group">
+        <label for="altText">Alt text</label>
+        <input type="text" id="altText" name="altText" placeholder="Describe the image">
+      </div>
+    </div>
+    <button type="submit" class="btn-gradient">Upload to Vault</button>
+  </form>
+</section>
+
+<section class="panel-block glass-panel">
+  <% if (!assets.length) { %>
+    <%- include('../partials/empty-state', {
+      icon: '▤',
+      title: 'Media vault is empty',
+      message: 'Upload images to reuse across publications.',
+      actionUrl: '',
+      actionLabel: ''
+    }) %>
+  <% } else { %>
+    <div class="media-grid">
+      <% assets.forEach(function(asset) { %>
+        <article class="media-card">
+          <img src="/uploads/<%= asset.storedName %>" alt="<%= asset.altText || asset.originalName %>" loading="lazy">
+          <div class="media-card-body">
+            <h3><%= asset.originalName %></h3>
+            <p><%= (asset.sizeBytes / 1024).toFixed(1) %> KB · <%= asset.uploadedBy?.fullName %></p>
+            <form action="/console/media/<%= asset._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Delete this asset?')">
+              <button type="submit" class="action-link danger">Remove</button>
+            </form>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+    <%- include('../partials/pagination', { pagination, filters }) %>
+  <% } %>
+</section>

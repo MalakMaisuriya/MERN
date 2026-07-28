@@ -1,0 +1,21 @@
+<header class="console-topbar glass-panel">
+  <button class="sidebar-trigger" type="button" aria-label="Open navigation" data-sidebar-toggle>
+    <span></span><span></span><span></span>
+  </button>
+  <div class="topbar-title">
+    <h1><%= pageTitle %></h1>
+  </div>
+  <div class="topbar-actions">
+    <span class="user-chip">
+      <% if (currentUser.avatarUrl) { %>
+        <img class="user-avatar" src="<%= currentUser.avatarUrl %>" alt="<%= currentUser.fullName %>">
+      <% } else { %>
+        <span class="user-avatar"><%= currentUser.fullName.charAt(0).toUpperCase() %></span>
+      <% } %>
+      <span class="user-meta">
+        <strong><%= currentUser.fullName %></strong>
+        <small><%= currentUser.role %></small>
+      </span>
+    </span>
+  </div>
+</header>

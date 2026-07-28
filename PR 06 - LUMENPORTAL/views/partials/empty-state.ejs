@@ -1,0 +1,8 @@
+<div class="empty-state glass-panel">
+  <div class="empty-icon" aria-hidden="true"><%= icon || '◌' %></div>
+  <h3><%= title %></h3>
+  <p><%= message %></p>
+  <% if (typeof actionUrl !== 'undefined' && actionUrl) { %>
+    <a href="<%= actionUrl %>" class="btn-gradient"><%= actionLabel || 'Get Started' %></a>
+  <% } %>
+</div>

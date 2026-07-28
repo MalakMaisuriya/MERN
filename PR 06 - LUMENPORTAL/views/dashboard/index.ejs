@@ -1,0 +1,67 @@
+<section class="metrics-grid">
+  <article class="metric-card glass-panel">
+    <span class="metric-label">Total Publications</span>
+    <strong class="metric-value"><%= metrics.totals.publications %></strong>
+  </article>
+  <article class="metric-card glass-panel">
+    <span class="metric-label">Published</span>
+    <strong class="metric-value"><%= metrics.totals.published %></strong>
+  </article>
+  <article class="metric-card glass-panel">
+    <span class="metric-label">Drafts</span>
+    <strong class="metric-value"><%= metrics.totals.drafts %></strong>
+  </article>
+  <article class="metric-card glass-panel">
+    <span class="metric-label">Topics</span>
+    <strong class="metric-value"><%= metrics.totals.topics %></strong>
+  </article>
+</section>
+
+<section class="chart-grid">
+  <article class="chart-card glass-panel">
+    <header><h2>Publication Activity</h2><p>Last 30 days</p></header>
+    <canvas id="trendChart" aria-label="Publication activity chart"></canvas>
+  </article>
+  <article class="chart-card glass-panel">
+    <header><h2>Status Distribution</h2><p>Current inventory</p></header>
+    <canvas id="statusChart" aria-label="Status distribution chart"></canvas>
+  </article>
+  <article class="chart-card glass-panel chart-wide">
+    <header><h2>Top Topics</h2><p>Published count by topic</p></header>
+    <canvas id="topicChart" aria-label="Top topics chart"></canvas>
+  </article>
+</section>
+
+<section class="panel-block glass-panel">
+  <header class="panel-header">
+    <h2>Recent Updates</h2>
+  </header>
+  <% if (!metrics.recentPublications.length) { %>
+    <p class="panel-empty">No publications yet. Create your first story.</p>
+  <% } else { %>
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Headline</th>
+            <th>Topic</th>
+            <th>Status</th>
+            <th>Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% metrics.recentPublications.forEach(function(item) { %>
+            <tr>
+              <td><%= item.headline %></td>
+              <td><span class="topic-pill" style="--pill-color: <%= item.topic?.accentColor || '#6366f1' %>"><%= item.topic?.title %></span></td>
+              <td><span class="status-badge status-<%= item.status %>"><%= item.status %></span></td>
+              <td><%= item.author?.fullName %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+</section>
+
+<script id="chart-data" type="application/json"><%- JSON.stringify(chartData) %></script>

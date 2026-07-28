@@ -1,0 +1,74 @@
+<section class="hero-section">
+  <div class="container-xl">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Campus Publication Platform</span>
+        <h1>Stories that illuminate academic life</h1>
+        <p class="hero-lead">Explore research breakthroughs, campus culture, and career journeys — curated by your editorial team.</p>
+        <div class="hero-actions">
+          <a href="/explore" class="btn-gradient">Browse Publications</a>
+          <% if (!currentUser) { %>
+            <a href="/auth/sign-in" class="btn-ghost">Editor Sign In</a>
+          <% } %>
+        </div>
+      </div>
+      <div class="hero-visual glass-panel">
+        <div class="orb orb-primary"></div>
+        <div class="orb orb-secondary"></div>
+        <div class="hero-stat-grid">
+          <div><strong><%= featured.length %></strong><span>Featured reads</span></div>
+          <div><strong><%= topics.length %></strong><span>Active topics</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% if (featured.length) { %>
+<section class="section-block">
+  <div class="container-xl">
+    <div class="section-heading">
+      <h2>Latest Publications</h2>
+      <a href="/explore" class="text-link">View all</a>
+    </div>
+    <div class="publication-grid">
+      <% featured.forEach(function(item) { %>
+        <article class="publication-card glass-panel">
+          <a href="/read/<%= item.slug %>" class="card-cover">
+            <% if (item.coverImage) { %>
+              <img src="<%= item.coverImage %>" alt="" loading="lazy">
+            <% } else { %>
+              <div class="cover-placeholder" style="--accent: <%= item.topic?.accentColor || '#6366f1' %>"></div>
+            <% } %>
+          </a>
+          <div class="card-body">
+            <span class="topic-pill" style="--pill-color: <%= item.topic?.accentColor || '#6366f1' %>"><%= item.topic?.title || 'General' %></span>
+            <h3><a href="/read/<%= item.slug %>"><%= item.headline %></a></h3>
+            <p><%= item.summary %></p>
+            <div class="card-meta">
+              <span><%= item.author?.fullName %></span>
+              <span><%= item.readingMinutes %> min read</span>
+            </div>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<section class="section-block">
+  <div class="container-xl">
+    <div class="section-heading">
+      <h2>Explore by Topic</h2>
+    </div>
+    <div class="topic-grid">
+      <% topics.forEach(function(topic) { %>
+        <a href="/explore?topic=<%= topic._id %>" class="topic-card glass-panel" style="--accent: <%= topic.accentColor %>">
+          <h3><%= topic.title %></h3>
+          <p><%= topic.description || 'Discover related publications' %></p>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>

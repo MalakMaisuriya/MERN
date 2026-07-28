@@ -1,0 +1,58 @@
+<section class="panel-block glass-panel form-panel">
+  <form action="/console/profile?_method=PUT" method="POST" class="premium-form" enctype="multipart/form-data">
+    <div class="profile-header">
+      <% if (account.avatarUrl) { %>
+        <img class="profile-avatar" src="<%= account.avatarUrl %>" alt="<%= account.fullName %>">
+      <% } else { %>
+        <span class="profile-avatar"><%= account.fullName.charAt(0).toUpperCase() %></span>
+      <% } %>
+      <div>
+        <h2><%= account.fullName %></h2>
+        <p><%= account.email %> / <%= account.role %></p>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="fullName">Display name</label>
+        <input type="text" id="fullName" name="fullName" value="<%= account.fullName || '' %>" required class="<%= fieldErrors.fullName ? 'is-invalid' : '' %>">
+        <% if (fieldErrors.fullName) { %><span class="field-error"><%= fieldErrors.fullName %></span><% } %>
+      </div>
+
+      <div class="form-group">
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" min="13" max="120" value="<%= account.age || '' %>" class="<%= fieldErrors.age ? 'is-invalid' : '' %>">
+        <% if (fieldErrors.age) { %><span class="field-error"><%= fieldErrors.age %></span><% } %>
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender" class="<%= fieldErrors.gender ? 'is-invalid' : '' %>">
+          <option value="" <%= !account.gender ? 'selected' : '' %>>Select gender</option>
+          <option value="male" <%= account.gender === 'male' ? 'selected' : '' %>>Male</option>
+          <option value="female" <%= account.gender === 'female' ? 'selected' : '' %>>Female</option>
+          <option value="non-binary" <%= account.gender === 'non-binary' ? 'selected' : '' %>>Non-binary</option>
+          <option value="other" <%= account.gender === 'other' ? 'selected' : '' %>>Other</option>
+          <option value="prefer-not-to-say" <%= account.gender === 'prefer-not-to-say' ? 'selected' : '' %>>Prefer not to say</option>
+        </select>
+        <% if (fieldErrors.gender) { %><span class="field-error"><%= fieldErrors.gender %></span><% } %>
+      </div>
+
+      <div class="form-group">
+        <label for="avatar">Profile picture</label>
+        <input type="file" id="avatar" name="avatar" accept="image/jpeg,image/png,image/webp,image/gif" class="<%= fieldErrors.avatar ? 'is-invalid' : '' %>">
+        <% if (fieldErrors.avatar) { %><span class="field-error"><%= fieldErrors.avatar %></span><% } %>
+      </div>
+
+      <div class="form-group span-2">
+        <label for="bio">Profile bio</label>
+        <textarea id="bio" name="bio" rows="4" maxlength="240" class="<%= fieldErrors.bio ? 'is-invalid' : '' %>"><%= account.bio || '' %></textarea>
+        <% if (fieldErrors.bio) { %><span class="field-error"><%= fieldErrors.bio %></span><% } %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-gradient">Update Profile</button>
+    </div>
+  </form>
+</section>

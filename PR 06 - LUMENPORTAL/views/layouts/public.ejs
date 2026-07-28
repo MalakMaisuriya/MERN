@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head', { pageTitle, metaDescription }) %>
+</head>
+<body class="public-body">
+  <header class="site-header glass-panel">
+    <nav class="container-xl site-nav" aria-label="Primary">
+      <a class="brand-mark" href="/">
+        <span class="brand-icon" aria-hidden="true">◈</span>
+        <span><%= appName %></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" data-nav-toggle>
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" data-nav-menu>
+        <a href="/explore" class="<%= requestPath.startsWith('/explore') ? 'is-active' : '' %>">Explore</a>
+        <% if (currentUser) { %>
+          <a href="/console" class="btn-gradient btn-sm">Console</a>
+        <% } else { %>
+          <a href="/auth/sign-in" class="btn-gradient btn-sm">Sign In</a>
+        <% } %>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <%- include('../partials/flash') %>
+    <%- body %>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container-xl footer-inner">
+      <p>&copy; <%= currentYear %> <%= appName %>. Crafted for academic excellence.</p>
+    </div>
+  </footer>
+
+  <script src="/js/public.js" defer></script>
+</body>
+</html>

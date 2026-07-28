@@ -1,0 +1,22 @@
+<% if (flash.success || flash.error || flash.info) { %>
+<div class="flash-stack" role="status" aria-live="polite">
+  <% if (flash.success) { %>
+    <div class="flash-banner flash-success" data-flash-dismiss>
+      <span><%= flash.success %></span>
+      <button type="button" aria-label="Dismiss notification">&times;</button>
+    </div>
+  <% } %>
+  <% if (flash.error) { %>
+    <div class="flash-banner flash-error" data-flash-dismiss>
+      <span><%= flash.error %></span>
+      <button type="button" aria-label="Dismiss notification">&times;</button>
+    </div>
+  <% } %>
+  <% if (flash.info) { %>
+    <div class="flash-banner flash-info" data-flash-dismiss>
+      <span><%= flash.info %></span>
+      <button type="button" aria-label="Dismiss notification">&times;</button>
+    </div>
+  <% } %>
+</div>
+<% } %>
