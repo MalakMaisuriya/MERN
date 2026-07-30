@@ -1,0 +1,38 @@
+<%- include('../partials/head') %>
+
+<div class="card-panel" style="max-width: 680px; margin: 0 auto;">
+  <div class="card-panel-title border-bottom pb-3 mb-4">
+    <span><i class="bi bi-person-video2 me-2 text-primary"></i> <%= title %></span>
+    <a href="/actors" class="btn btn-outline-secondary btn-sm">Back to Actors</a>
+  </div>
+
+  <%- include('../partials/errors', { errors }) %>
+
+  <form method="post" action="<%= actor._id ? '/actors/' + actor._id + '?_method=PUT' : '/actors' %>">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">First Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" name="firstName" value="<%= actor.firstName || '' %>" placeholder="e.g. Leonardo" required>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Last Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" name="lastName" value="<%= actor.lastName || '' %>" placeholder="e.g. DiCaprio" required>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label fw-semibold">Biography / Description</label>
+        <textarea class="form-control" name="bio" rows="4" placeholder="Brief biography of the actor..."><%= actor.bio || '' %></textarea>
+      </div>
+    </div>
+
+    <div class="mt-4 pt-3 border-top d-flex gap-2">
+      <button type="submit" class="btn btn-primary fw-semibold px-4">
+        <i class="bi bi-check-lg me-1"></i> Save Actor
+      </button>
+      <a href="/actors" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/foot') %>

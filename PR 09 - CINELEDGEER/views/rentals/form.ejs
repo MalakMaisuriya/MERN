@@ -1,0 +1,68 @@
+<%- include('../partials/head') %>
+
+<div class="card-panel" style="max-width: 760px; margin: 0 auto;">
+  <div class="card-panel-title border-bottom pb-3 mb-4">
+    <span><i class="bi bi-arrow-left-right me-2 text-primary"></i> <%= title %></span>
+    <a href="/rentals" class="btn btn-outline-secondary btn-sm">Back to Rentals</a>
+  </div>
+
+  <%- include('../partials/errors', { errors }) %>
+
+  <form method="post" action="/rentals">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Select Customer <span class="text-danger">*</span></label>
+        <select class="form-select" name="customer" required>
+          <option value="">Select Active Customer</option>
+          <% customers.forEach(c => { %>
+            <option value="<%= c._id %>"><%= c.firstName %> <%= c.lastName %> (<%= c.email %>)</option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Select Available Movie Copy <span class="text-danger">*</span></label>
+        <select class="form-select" name="inventory" required id="inventorySelect">
+          <option value="">Select Available Inventory Item</option>
+          <% inventoryList.forEach(item => { %>
+            <option value="<%= item._id %>" data-rate="<%= item.movie?.rentalRate %>">
+              <%= item.movie?.title %> — <%= item.store?.name %> (SKU: <%= item.sku %>) [₹<%= item.movie?.rentalRate %>]
+            </option>
+          <% }) %>
+        </select>
+        <% if (!inventoryList.length) { %>
+          <div class="text-danger small mt-1">No copies are currently available in inventory!</div>
+        <% } %>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Payment Method <span class="text-danger">*</span></label>
+        <select class="form-select" name="paymentMethod" required>
+          <option value="Cash" selected>Cash</option>
+          <option value="Card">Card</option>
+          <option value="UPI">UPI</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Rental Rate (₹)</label>
+        <input type="number" step="0.01" class="form-control" name="customAmount" placeholder="Auto-filled from movie rate">
+        <div class="form-text">Leave blank to use default movie rate.</div>
+      </div>
+    </div>
+
+    <div class="alert alert-info mt-4 mb-0" role="alert">
+      <i class="bi bi-info-circle-fill me-2"></i>
+      Creating a rental automatically registers a <strong>Paid transaction</strong> and locks the movie copy status as <strong>Rented</strong>.
+    </div>
+
+    <div class="mt-4 pt-3 border-top d-flex gap-2">
+      <button type="submit" class="btn btn-success fw-semibold px-4" <%= !inventoryList.length ? 'disabled' : '' %>>
+        <i class="bi bi-check-lg me-1"></i> Checkout Rental
+      </button>
+      <a href="/rentals" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/foot') %>

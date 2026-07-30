@@ -1,0 +1,59 @@
+<%- include('../partials/head') %>
+
+<div class="card-panel" style="max-width: 660px; margin: 0 auto;">
+  <div class="card-panel-title border-bottom pb-3 mb-4">
+    <span><i class="bi bi-credit-card me-2 text-primary"></i> <%= title %></span>
+    <a href="/payments" class="btn btn-outline-secondary btn-sm">Back to Payments</a>
+  </div>
+
+  <%- include('../partials/errors', { errors }) %>
+
+  <form method="post" action="/payments">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Customer <span class="text-danger">*</span></label>
+        <select class="form-select" name="customer" required>
+          <option value="">Select Customer</option>
+          <% customers.forEach(c => { %>
+            <option value="<%= c._id %>"><%= c.firstName %> <%= c.lastName %> (<%= c.email %>)</option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Active Rental Order <span class="text-danger">*</span></label>
+        <select class="form-select" name="rental" required>
+          <option value="">Select Rental Order</option>
+          <% rentals.forEach(r => { %>
+            <option value="<%= r._id %>">
+              #<%= r._id.toString().slice(-6).toUpperCase() %> — <%= r.customer?.firstName %> (<%= r.inventory?.movie?.title %>)
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Payment Amount (₹) <span class="text-danger">*</span></label>
+        <input type="number" step="0.01" class="form-control" name="amount" placeholder="0.00" min="0.01" required>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Payment Method <span class="text-danger">*</span></label>
+        <select class="form-select" name="paymentMethod" required>
+          <option value="Cash" selected>Cash</option>
+          <option value="Card">Card</option>
+          <option value="UPI">UPI</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mt-4 pt-3 border-top d-flex gap-2">
+      <button type="submit" class="btn btn-primary fw-semibold px-4">
+        <i class="bi bi-check-lg me-1"></i> Record Payment
+      </button>
+      <a href="/payments" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/foot') %>

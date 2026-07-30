@@ -1,0 +1,216 @@
+<%- include('../partials/head') %>
+
+<!-- Summary Statistics Metrics Grid -->
+<div class="stat-grid">
+  <div class="metric-card">
+    <div class="metric-info">
+      <span>Total Movies</span>
+      <strong><%= stats.totalMovies %></strong>
+    </div>
+    <div class="metric-icon blue">
+      <i class="bi bi-film"></i>
+    </div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-info">
+      <span>Active Customers</span>
+      <strong><%= stats.totalCustomers %></strong>
+    </div>
+    <div class="metric-icon green">
+      <i class="bi bi-people"></i>
+    </div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-info">
+      <span>Available Inventory</span>
+      <strong><%= stats.availableInventory %></strong>
+    </div>
+    <div class="metric-icon amber">
+      <i class="bi bi-boxes"></i>
+    </div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-info">
+      <span>Total Revenue</span>
+      <strong>₹<%= stats.totalRevenue.toFixed(2) %></strong>
+    </div>
+    <div class="metric-icon purple">
+      <i class="bi bi-currency-rupee"></i>
+    </div>
+  </div>
+</div>
+
+<div class="stat-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+  <div class="metric-card">
+    <div class="metric-info">
+      <span>Active Rentals</span>
+      <strong class="text-primary"><%= stats.activeRentals %></strong>
+    </div>
+    <div class="metric-icon blue" style="width: 38px; height: 38px; font-size: 1.1rem;">
+      <i class="bi bi-arrow-left-right"></i>
+    </div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-info">
+      <span>Returned Rentals</span>
+      <strong class="text-success"><%= stats.returnedRentals %></strong>
+    </div>
+    <div class="metric-icon green" style="width: 38px; height: 38px; font-size: 1.1rem;">
+      <i class="bi bi-check-circle"></i>
+    </div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-info">
+      <span>Actors Catalog</span>
+      <strong><%= stats.totalActors %></strong>
+    </div>
+    <div class="metric-icon rose" style="width: 38px; height: 38px; font-size: 1.1rem;">
+      <i class="bi bi-person-video2"></i>
+    </div>
+  </div>
+
+  <div class="metric-card">
+    <div class="metric-info">
+      <span>Categories</span>
+      <strong><%= stats.totalCategories %></strong>
+    </div>
+    <div class="metric-icon amber" style="width: 38px; height: 38px; font-size: 1.1rem;">
+      <i class="bi bi-tags"></i>
+    </div>
+  </div>
+</div>
+
+<!-- Charts & Highlights Row -->
+<div class="row g-4 mb-4">
+  <!-- Revenue Chart -->
+  <div class="col-lg-8">
+    <div class="card-panel h-100">
+      <div class="card-panel-title">
+        <span><i class="bi bi-graph-up me-2 text-primary"></i> Monthly Revenue Trend</span>
+        <span class="badge text-bg-light border fw-normal" style="font-size: 0.75rem;">Year 2026</span>
+      </div>
+      <div style="height: 280px; position: relative;">
+        <canvas id="revenueChart" 
+          data-labels='<%- JSON.stringify(monthlyRevenue.map(m => m._id)) %>' 
+          data-values='<%- JSON.stringify(monthlyRevenue.map(m => m.total)) %>'>
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popular Movies -->
+  <div class="col-lg-4">
+    <div class="card-panel h-100">
+      <div class="card-panel-title">
+        <span><i class="bi bi-fire me-2 text-warning"></i> Popular Movies</span>
+        <a href="/movies" class="btn btn-link btn-sm p-0 text-decoration-none" style="font-size: 0.8rem;">View All</a>
+      </div>
+      <div class="list-group list-group-flush border-0">
+        <% if (popularMovies && popularMovies.length) { %>
+          <% popularMovies.forEach(item => { %>
+            <div class="list-group-item px-0 py-2.5 d-flex align-items-center justify-content-between border-bottom-0">
+              <div class="d-flex align-items-center gap-2.5">
+                <div class="bg-light rounded p-1 text-center" style="width: 36px; height: 36px;">
+                  <i class="bi bi-film text-primary"></i>
+                </div>
+                <div>
+                  <h6 class="mb-0 fw-semibold" style="font-size: 0.88rem;"><%= item._id?.movie?.title || 'Movie Copy' %></h6>
+                  <span class="text-muted extra-small" style="font-size: 0.75rem;"><%= item._id?.movie?.rating || 'PG' %> · ₹<%= item._id?.movie?.rentalRate || 0 %></span>
+                </div>
+              </div>
+              <span class="badge text-bg-primary rounded-pill"><%= item.count %> rentals</span>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <p class="text-muted small my-3 text-center">No rental activity yet.</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Rentals & Payments Row -->
+<div class="row g-4">
+  <!-- Recent Rentals -->
+  <div class="col-lg-6">
+    <div class="card-panel h-100">
+      <div class="card-panel-title">
+        <span><i class="bi bi-clock-history me-2 text-info"></i> Recent Rental Orders</span>
+        <a href="/rentals" class="btn btn-link btn-sm p-0 text-decoration-none" style="font-size: 0.8rem;">Manage Rentals</a>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-custom align-middle">
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Movie Title</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (recentRentals && recentRentals.length) { %>
+              <% recentRentals.forEach(r => { %>
+                <tr>
+                  <td class="fw-medium"><%= r.customer?.firstName %> <%= r.customer?.lastName %></td>
+                  <td><%= r.inventory?.movie?.title || 'N/A' %></td>
+                  <td>
+                    <span class="badge-custom <%= r.status === 'Active' ? 'badge-rented' : 'badge-available' %>">
+                      <%= r.status %>
+                    </span>
+                  </td>
+                  <td class="text-muted small"><%= new Date(r.rentalDate).toLocaleDateString() %></td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr><td colspan="4" class="text-center text-muted">No recent rentals found</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Payments -->
+  <div class="col-lg-6">
+    <div class="card-panel h-100">
+      <div class="card-panel-title">
+        <span><i class="bi bi-credit-card me-2 text-success"></i> Recent Transactions</span>
+        <a href="/payments" class="btn btn-link btn-sm p-0 text-decoration-none" style="font-size: 0.8rem;">View Payments</a>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-custom align-middle">
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Method</th>
+              <th>Amount</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (recentPayments && recentPayments.length) { %>
+              <% recentPayments.forEach(p => { %>
+                <tr>
+                  <td class="fw-medium"><%= p.customer?.firstName %> <%= p.customer?.lastName %></td>
+                  <td><span class="badge text-bg-light border"><%= p.paymentMethod %></span></td>
+                  <td class="fw-bold text-success">₹<%= p.amount.toFixed(2) %></td>
+                  <td class="text-muted small"><%= new Date(p.paymentDate).toLocaleDateString() %></td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr><td colspan="4" class="text-center text-muted">No recent payments found</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/foot') %>

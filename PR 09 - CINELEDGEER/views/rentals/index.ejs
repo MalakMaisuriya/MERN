@@ -1,0 +1,97 @@
+<%- include('../partials/head') %>
+
+<div class="toolbar-card">
+  <form class="filter-form" method="get" action="/rentals">
+    <select class="form-select" name="status" style="max-width: 180px;">
+      <option value="">All Statuses</option>
+      <option value="Active" <%= filters.status === 'Active' ? 'selected' : '' %>>Active</option>
+      <option value="Returned" <%= filters.status === 'Returned' ? 'selected' : '' %>>Returned</option>
+      <option value="Overdue" <%= filters.status === 'Overdue' ? 'selected' : '' %>>Overdue</option>
+    </select>
+
+    <button type="submit" class="btn btn-dark fw-semibold">Filter</button>
+
+    <% if (filters.status) { %>
+      <a href="/rentals" class="btn btn-outline-secondary" title="Reset Filters">
+        <i class="bi bi-x-circle"></i>
+      </a>
+    <% } %>
+
+    <a href="/rentals/new" class="btn btn-success ms-auto fw-semibold">
+      <i class="bi bi-arrow-left-right me-1"></i> New Movie Rental
+    </a>
+  </form>
+</div>
+
+<div class="card-panel">
+  <div class="table-responsive">
+    <table class="table table-custom align-middle">
+      <thead>
+        <tr>
+          <th>Rental ID</th>
+          <th>Customer</th>
+          <th>Rented Movie Copy</th>
+          <th>Rental Date</th>
+          <th>Return Date</th>
+          <th>Amount</th>
+          <th>Processed By</th>
+          <th>Status</th>
+          <th class="text-end">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (items && items.length) { %>
+          <% items.forEach(r => { %>
+            <tr>
+              <td class="fw-bold font-monospace text-muted" style="font-size: 0.8rem;">
+                #<%= r._id.toString().slice(-6).toUpperCase() %>
+              </td>
+              <td>
+                <a href="/customers/<%= r.customer?._id %>" class="fw-bold text-decoration-none text-dark">
+                  <%= r.customer?.firstName %> <%= r.customer?.lastName %>
+                </a>
+              </td>
+              <td>
+                <div class="fw-semibold"><%= r.inventory?.movie?.title || 'Movie' %></div>
+                <div class="text-muted extra-small font-monospace">SKU: <%= r.inventory?.sku || 'N/A' %></div>
+              </td>
+              <td class="small"><%= new Date(r.rentalDate).toLocaleDateString() %></td>
+              <td class="small">
+                <% if (r.returnDate) { %>
+                  <span class="text-success fw-medium"><%= new Date(r.returnDate).toLocaleDateString() %></span>
+                <% } else { %>
+                  <span class="text-muted italic">Pending</span>
+                <% } %>
+              </td>
+              <td class="fw-bold text-primary">₹<%= r.rentalAmount.toFixed(2) %></td>
+              <td class="small text-muted"><%= r.staff?.firstName %> <%= r.staff?.lastName %></td>
+              <td>
+                <span class="badge-custom <%= r.status === 'Active' ? 'badge-rented' : (r.status === 'Returned' ? 'badge-available' : 'badge-overdue') %>">
+                  <%= r.status %>
+                </span>
+              </td>
+              <td class="text-end">
+                <% if (r.status === 'Active') { %>
+                  <form method="post" action="/rentals/<%= r._id %>/return?_method=PUT" class="d-inline">
+                    <button type="submit" class="btn btn-outline-success btn-sm fw-semibold">
+                      <i class="bi bi-check-circle me-1"></i> Return Movie
+                    </button>
+                  </form>
+                <% } else { %>
+                  <span class="text-muted small"><i class="bi bi-check2-all text-success"></i> Completed</span>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="9" class="text-center text-muted py-4">No rental orders found.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('../partials/pagination', { page, pages, total, filters }) %>
+<%- include('../partials/foot') %>

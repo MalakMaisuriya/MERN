@@ -1,0 +1,91 @@
+<%- include('../partials/head') %>
+
+<!-- Filter & Search Toolbar -->
+<div class="toolbar-card">
+  <form class="filter-form" method="get" action="/movies">
+    <div class="input-group" style="max-width: 280px;">
+      <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+      <input type="text" class="form-control" name="search" placeholder="Search by title or description..." value="<%= filters.search || '' %>">
+    </div>
+
+    <select class="form-select" name="category" style="max-width: 180px;">
+      <option value="">All Categories</option>
+      <% categories.forEach(c => { %>
+        <option value="<%= c._id %>" <%= String(filters.category) === String(c._id) ? 'selected' : '' %>><%= c.name %></option>
+      <% }) %>
+    </select>
+
+    <select class="form-select" name="language" style="max-width: 160px;">
+      <option value="">All Languages</option>
+      <% languages.forEach(l => { %>
+        <option value="<%= l._id %>" <%= String(filters.language) === String(l._id) ? 'selected' : '' %>><%= l.name %></option>
+      <% }) %>
+    </select>
+
+    <select class="form-select" name="sort" style="max-width: 150px;">
+      <option value="newest" <%= filters.sort === 'newest' ? 'selected' : '' %>>Newest First</option>
+      <option value="title" <%= filters.sort === 'title' ? 'selected' : '' %>>Title A-Z</option>
+      <option value="year" <%= filters.sort === 'year' ? 'selected' : '' %>>Release Year</option>
+      <option value="rate" <%= filters.sort === 'rate' ? 'selected' : '' %>>Rental Rate</option>
+    </select>
+
+    <button type="submit" class="btn btn-dark fw-semibold">
+      Filter
+    </button>
+
+    <% if (filters.search || filters.category || filters.language || filters.sort) { %>
+      <a href="/movies" class="btn btn-outline-secondary" title="Reset Filters">
+        <i class="bi bi-x-circle"></i>
+      </a>
+    <% } %>
+
+    <% if (currentUser && currentUser.role === 'Admin') { %>
+      <a href="/movies/new" class="btn btn-primary ms-auto fw-semibold">
+        <i class="bi bi-plus-lg me-1"></i> Add Movie
+      </a>
+    <% } %>
+  </form>
+</div>
+
+<!-- Movie Cards Grid -->
+<% if (items && items.length) { %>
+  <div class="movie-grid">
+    <% items.forEach(movie => { %>
+      <a class="movie-card" href="/movies/<%= movie._id %>">
+        <div class="movie-poster-wrap">
+          <img src="<%= movie.poster || 'https://picsum.photos/seed/movie-' + movie._id + '/500/750' %>" alt="<%= movie.title %>" loading="lazy">
+          <span class="rating-badge"><%= movie.rating || 'PG' %></span>
+        </div>
+        <div class="movie-card-body">
+          <h2 class="movie-title"><%= movie.title %></h2>
+          <div class="movie-meta">
+            <span><i class="bi bi-calendar-event me-1"></i><%= movie.releaseYear %></span>
+            <span>·</span>
+            <span><i class="bi bi-translate me-1"></i><%= movie.language?.name || 'N/A' %></span>
+          </div>
+          <div class="d-flex flex-wrap gap-1 mb-2">
+            <% (movie.categories || []).forEach(cat => { %>
+              <span class="badge text-bg-light border text-secondary" style="font-size: 0.72rem;"><%= cat.name %></span>
+            <% }) %>
+          </div>
+          <div class="movie-footer">
+            <span class="movie-price">₹<%= movie.rentalRate.toFixed(2) %></span>
+            <span class="btn btn-outline-primary btn-sm px-2.5" style="font-size: 0.78rem;">Details</span>
+          </div>
+        </div>
+      </a>
+    <% }) %>
+  </div>
+<% } else { %>
+  <div class="empty-state">
+    <i class="bi bi-film"></i>
+    <h3>No Movies Found</h3>
+    <p>Try adjusting your search query or filter settings.</p>
+    <% if (currentUser && currentUser.role === 'Admin') { %>
+      <a href="/movies/new" class="btn btn-primary mt-2">Add New Movie</a>
+    <% } %>
+  </div>
+<% } %>
+
+<%- include('../partials/pagination', { page, pages, total, filters }) %>
+<%- include('../partials/foot') %>

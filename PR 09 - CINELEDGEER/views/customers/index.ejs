@@ -1,0 +1,92 @@
+<%- include('../partials/head') %>
+
+<div class="toolbar-card">
+  <form class="filter-form" method="get" action="/customers">
+    <div class="input-group" style="max-width: 320px;">
+      <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+      <input type="text" class="form-control" name="search" placeholder="Search customer name, email or phone..." value="<%= filters.search || '' %>">
+    </div>
+
+    <select class="form-select" name="active" style="max-width: 160px;">
+      <option value="">All Statuses</option>
+      <option value="true" <%= filters.active === 'true' ? 'selected' : '' %>>Active</option>
+      <option value="false" <%= filters.active === 'false' ? 'selected' : '' %>>Inactive</option>
+    </select>
+
+    <button type="submit" class="btn btn-dark fw-semibold">Search</button>
+
+    <a href="/customers/new" class="btn btn-primary ms-auto fw-semibold">
+      <i class="bi bi-person-plus me-1"></i> Register Customer
+    </a>
+  </form>
+</div>
+
+<div class="card-panel">
+  <div class="table-responsive">
+    <table class="table table-custom align-middle">
+      <thead>
+        <tr>
+          <th>Customer Name</th>
+          <th>Contact Info</th>
+          <th>Registered Store</th>
+          <th>Address Location</th>
+          <th>Status</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (items && items.length) { %>
+          <% items.forEach(c => { %>
+            <tr>
+              <td>
+                <a href="/customers/<%= c._id %>" class="fw-bold text-decoration-none text-dark">
+                  <i class="bi bi-person-circle me-1 text-primary"></i>
+                  <%= c.firstName %> <%= c.lastName %>
+                </a>
+              </td>
+              <td>
+                <div class="small fw-medium"><%= c.email %></div>
+                <div class="text-muted extra-small"><i class="bi bi-telephone me-1"></i><%= c.phone %></div>
+              </td>
+              <td>
+                <span class="badge text-bg-light border">
+                  <i class="bi bi-shop me-1 text-muted"></i><%= c.store?.name || 'N/A' %>
+                </span>
+              </td>
+              <td class="text-secondary small">
+                <%= c.address?.line1 %>, <%= c.address?.city?.name %>
+              </td>
+              <td>
+                <span class="badge-custom <%= c.active ? 'badge-available' : 'badge-overdue' %>">
+                  <%= c.active ? 'Active' : 'Inactive' %>
+                </span>
+              </td>
+              <td class="text-end">
+                <a href="/customers/<%= c._id %>" class="btn btn-outline-info btn-sm me-1" title="View History">
+                  <i class="bi bi-eye"></i>
+                </a>
+                <a href="/customers/<%= c._id %>/edit" class="btn btn-outline-primary btn-sm me-1" title="Edit Customer">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <% if (currentUser && currentUser.role === 'Admin' && c.active) { %>
+                  <form method="post" action="/customers/<%= c._id %>?_method=DELETE" onsubmit="return confirm('Deactivate this customer?');" class="d-inline">
+                    <button type="submit" class="btn btn-outline-danger btn-sm" title="Deactivate">
+                      <i class="bi bi-person-x"></i>
+                    </button>
+                  </form>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="6" class="text-center text-muted py-4">No customers found matching search parameters.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('../partials/pagination', { page, pages, total, filters }) %>
+<%- include('../partials/foot') %>

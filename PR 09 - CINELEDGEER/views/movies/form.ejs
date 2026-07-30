@@ -1,0 +1,120 @@
+<%- include('../partials/head') %>
+
+<div class="card-panel" style="max-width: 960px; margin: 0 auto;">
+  <div class="card-panel-title border-bottom pb-3 mb-4">
+    <span><i class="bi bi-film me-2 text-primary"></i> <%= title %></span>
+    <a href="/movies" class="btn btn-outline-secondary btn-sm">Back to Movies</a>
+  </div>
+
+  <%- include('../partials/errors', { errors }) %>
+
+  <form method="post" enctype="multipart/form-data" action="<%= movie._id ? '/movies/' + movie._id + '?_method=PUT' : '/movies' %>">
+    <div class="row g-3">
+      <div class="col-md-8">
+        <label class="form-label fw-semibold">Movie Title <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" name="title" value="<%= movie.title || '' %>" placeholder="e.g. Inception" required>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Release Year <span class="text-danger">*</span></label>
+        <input type="number" class="form-control" name="releaseYear" value="<%= movie.releaseYear || 2024 %>" min="1900" max="2100" required>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label fw-semibold">Plot Description <span class="text-danger">*</span></label>
+        <textarea class="form-control" name="description" rows="3" placeholder="Brief summary of the movie..." required><%= movie.description || '' %></textarea>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Language <span class="text-danger">*</span></label>
+        <select class="form-select" name="language" required>
+          <option value="">Select Language</option>
+          <% languages.forEach(l => { %>
+            <option value="<%= l._id %>" <%= String(movie.language) === String(l._id) ? 'selected' : '' %>><%= l.name %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">MPAA Rating</label>
+        <select class="form-select" name="rating">
+          <% ['G', 'PG', 'PG-13', 'R', 'NC-17'].forEach(r => { %>
+            <option value="<%= r %>" <%= movie.rating === r ? 'selected' : '' %>><%= r %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Runtime (Minutes)</label>
+        <input type="number" class="form-control" name="length" value="<%= movie.length || 120 %>" placeholder="120">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Rental Rate (₹) <span class="text-danger">*</span></label>
+        <input type="number" step="0.01" class="form-control" name="rentalRate" value="<%= movie.rentalRate || 49.00 %>" required>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Rental Duration (Days)</label>
+        <input type="number" class="form-control" name="rentalDuration" value="<%= movie.rentalDuration || 3 %>" min="1" required>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Replacement Cost (₹) <span class="text-danger">*</span></label>
+        <input type="number" step="0.01" class="form-control" name="replacementCost" value="<%= movie.replacementCost || 399.00 %>" required>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Cast / Actors</label>
+        <select class="form-select" name="actors" multiple style="height: 120px;">
+          <% actors.forEach(a => { %>
+            <% 
+              const actorIds = (movie.actors || []).map(item => typeof item === 'object' ? item._id.toString() : item.toString());
+            %>
+            <option value="<%= a._id %>" <%= actorIds.includes(a._id.toString()) ? 'selected' : '' %>>
+              <%= a.firstName %> <%= a.lastName %>
+            </option>
+          <% }) %>
+        </select>
+        <div class="form-text">Hold Ctrl / Cmd to select multiple actors.</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Categories</label>
+        <select class="form-select" name="categories" multiple style="height: 120px;">
+          <% categories.forEach(c => { %>
+            <% 
+              const catIds = (movie.categories || []).map(item => typeof item === 'object' ? item._id.toString() : item.toString());
+            %>
+            <option value="<%= c._id %>" <%= catIds.includes(c._id.toString()) ? 'selected' : '' %>>
+              <%= c.name %>
+            </option>
+          <% }) %>
+        </select>
+        <div class="form-text">Hold Ctrl / Cmd to select multiple categories.</div>
+      </div>
+
+      <div class="col-md-8">
+        <label class="form-label fw-semibold">Special Features (comma separated)</label>
+        <input type="text" class="form-control" name="specialFeatures" value="<%= (movie.specialFeatures || []).join ? movie.specialFeatures.join(', ') : (movie.specialFeatures || '') %>" placeholder="Trailers, Deleted Scenes, Commentary">
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">Poster Image</label>
+        <input type="file" class="form-control" name="poster" id="posterInput" accept="image/*">
+        <% if (movie.poster) { %>
+          <div class="mt-2 text-muted small">Current Poster: <%= movie.poster %></div>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="mt-4 pt-3 border-top d-flex gap-2">
+      <button type="submit" class="btn btn-primary fw-semibold px-4">
+        <i class="bi bi-check-lg me-1"></i> Save Movie
+      </button>
+      <a href="/movies" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/foot') %>

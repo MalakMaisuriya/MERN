@@ -1,0 +1,92 @@
+<%- include('../partials/head') %>
+
+<div class="card-panel" style="max-width: 760px; margin: 0 auto;">
+  <div class="card-panel-title border-bottom pb-3 mb-4">
+    <span><i class="bi bi-person-badge me-2 text-primary"></i> <%= title %></span>
+    <a href="/staff" class="btn btn-outline-secondary btn-sm">Back to Staff Accounts</a>
+  </div>
+
+  <%- include('../partials/errors', { errors }) %>
+
+  <form method="post" action="<%= user._id ? '/staff/' + user._id + '?_method=PUT' : '/staff' %>">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">First Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" name="firstName" value="<%= user.firstName || '' %>" required>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Last Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" name="lastName" value="<%= user.lastName || '' %>" required>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Email Address <span class="text-danger">*</span></label>
+        <input type="email" class="form-control" name="email" value="<%= user.email || '' %>" placeholder="staff@movierental.com" required>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Username <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" name="username" value="<%= user.username || '' %>" placeholder="johndoe" <%= user._id ? 'readonly' : 'required' %>>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Password <%= user._id ? '(Leave blank to keep unchanged)' : '*' %></label>
+        <input type="password" class="form-control" name="password" placeholder="••••••••" <%= user._id ? '' : 'required' %>>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">System Role <span class="text-danger">*</span></label>
+        <select class="form-select" name="role" required>
+          <option value="Staff" <%= user.role === 'Staff' ? 'selected' : '' %>>Staff (Limited Management)</option>
+          <option value="Admin" <%= user.role === 'Admin' ? 'selected' : '' %>>Admin (Full Control)</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Phone Number</label>
+        <input type="text" class="form-control" name="phone" value="<%= user.phone || '' %>" placeholder="9876543210">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Assigned Store Branch</label>
+        <select class="form-select" name="store">
+          <option value="">All Stores / Headquarters</option>
+          <% stores.forEach(s => { %>
+            <option value="<%= s._id %>" <%= String(user.store) === String(s._id) ? 'selected' : '' %>><%= s.name %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label fw-semibold">Residential Address</label>
+        <select class="form-select" name="address">
+          <option value="">Select Address</option>
+          <% addresses.forEach(a => { %>
+            <option value="<%= a._id %>" <%= String(user.address) === String(a._id) ? 'selected' : '' %>>
+              <%= a.line1 %>, <%= a.city?.name %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <% if (user._id) { %>
+        <div class="col-12 mt-3">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" name="active" value="true" id="staffActiveSwitch" <%= user.active !== false ? 'checked' : '' %>>
+            <label class="form-check-label fw-semibold" for="staffActiveSwitch">Account Active</label>
+          </div>
+        </div>
+      <% } %>
+    </div>
+
+    <div class="mt-4 pt-3 border-top d-flex gap-2">
+      <button type="submit" class="btn btn-primary fw-semibold px-4">
+        <i class="bi bi-check-lg me-1"></i> Save Staff Account
+      </button>
+      <a href="/staff" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/foot') %>

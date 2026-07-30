@@ -1,0 +1,52 @@
+<%- include('../partials/head') %>
+
+<div class="card-panel" style="max-width: 660px; margin: 0 auto;">
+  <div class="card-panel-title border-bottom pb-3 mb-4">
+    <span><i class="bi bi-shop me-2 text-primary"></i> <%= title %></span>
+    <a href="/stores" class="btn btn-outline-secondary btn-sm">Back to Stores</a>
+  </div>
+
+  <%- include('../partials/errors', { errors }) %>
+
+  <form method="post" action="<%= store._id ? '/stores/' + store._id + '?_method=PUT' : '/stores' %>">
+    <div class="row g-3">
+      <div class="col-12">
+        <label class="form-label fw-semibold">Store Branch Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" name="name" value="<%= store.name || '' %>" placeholder="e.g. CineLedger Downtown Hub" required>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Store Manager</label>
+        <select class="form-select" name="manager">
+          <option value="">Select Staff Manager</option>
+          <% managers.forEach(m => { %>
+            <option value="<%= m._id %>" <%= String(store.manager) === String(m._id) ? 'selected' : '' %>>
+              <%= m.firstName %> <%= m.lastName %> (<%= m.role %>)
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Location Address <span class="text-danger">*</span></label>
+        <select class="form-select" name="address" required>
+          <option value="">Select Registered Address</option>
+          <% addresses.forEach(a => { %>
+            <option value="<%= a._id %>" <%= String(store.address) === String(a._id) ? 'selected' : '' %>>
+              <%= a.line1 %>, <%= a.city?.name %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+    </div>
+
+    <div class="mt-4 pt-3 border-top d-flex gap-2">
+      <button type="submit" class="btn btn-primary fw-semibold px-4">
+        <i class="bi bi-check-lg me-1"></i> Save Store Branch
+      </button>
+      <a href="/stores" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/foot') %>

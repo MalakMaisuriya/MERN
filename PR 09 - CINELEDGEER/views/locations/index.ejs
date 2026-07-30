@@ -1,0 +1,215 @@
+<%- include('../partials/head') %>
+
+<div class="row g-4">
+  <!-- Left Side: Countries & Cities -->
+  <div class="col-lg-6">
+    <!-- Countries Card -->
+    <div class="card-panel mb-4">
+      <div class="card-panel-title">
+        <span><i class="bi bi-globe me-2 text-primary"></i> Countries</span>
+        <% if (currentUser && currentUser.role === 'Admin') { %>
+          <button class="btn btn-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#addCountryForm">
+            <i class="bi bi-plus-lg me-1"></i> Add Country
+          </button>
+        <% } %>
+      </div>
+
+      <div class="collapse mb-3" id="addCountryForm">
+        <form method="post" action="/locations/country" class="p-3 bg-light rounded border">
+          <div class="input-group">
+            <input type="text" name="name" class="form-control" placeholder="Country name (e.g. India, USA)" required>
+            <button type="submit" class="btn btn-success fw-semibold">Save</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="d-flex flex-wrap gap-2">
+        <% countries.forEach(c => { %>
+          <div class="badge text-bg-light border p-2 d-flex align-items-center gap-2 fs-6">
+            <i class="bi bi-flag-fill text-primary"></i>
+            <%= c.name %>
+            <% if (currentUser && currentUser.role === 'Admin') { %>
+              <form method="post" action="/locations/country/<%= c._id %>?_method=DELETE" class="d-inline" onsubmit="return confirm('Delete country?');">
+                <button type="submit" class="btn-close btn-close-xs" style="font-size: 0.65rem;" title="Delete"></button>
+              </form>
+            <% } %>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <!-- Cities Card -->
+    <div class="card-panel">
+      <div class="card-panel-title">
+        <span><i class="bi bi-building me-2 text-info"></i> Cities</span>
+        <% if (currentUser && currentUser.role === 'Admin') { %>
+          <button class="btn btn-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#addCityForm">
+            <i class="bi bi-plus-lg me-1"></i> Add City
+          </button>
+        <% } %>
+      </div>
+
+      <div class="collapse mb-3" id="addCityForm">
+        <form method="post" action="/locations/city" class="p-3 bg-light rounded border">
+          <div class="row g-2">
+            <div class="col-md-6">
+              <input type="text" name="name" class="form-control" placeholder="City name" required>
+            </div>
+            <div class="col-md-6">
+              <select name="country" class="form-select" required>
+                <option value="">Select Country</option>
+                <% countries.forEach(c => { %>
+                  <option value="<%= c._id %>"><%= c.name %></option>
+                <% }) %>
+              </select>
+            </div>
+            <div class="col-12 text-end">
+              <button type="submit" class="btn btn-success btn-sm fw-semibold px-3">Save City</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-custom align-middle">
+          <thead>
+            <tr>
+              <th>City</th>
+              <th>Country</th>
+              <th class="text-end">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% cities.forEach(city => { %>
+              <tr>
+                <td class="fw-semibold"><i class="bi bi-geo me-1 text-info"></i><%= city.name %></td>
+                <td><span class="badge text-bg-light border"><%= city.country?.name || 'N/A' %></span></td>
+                <td class="text-end">
+                  <% if (currentUser && currentUser.role === 'Admin') { %>
+                    <form method="post" action="/locations/city/<%= city._id %>?_method=DELETE" class="d-inline" onsubmit="return confirm('Delete city?');">
+                      <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></button>
+                    </form>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side: Languages & Full Addresses -->
+  <div class="col-lg-6">
+    <!-- Languages Card -->
+    <div class="card-panel mb-4">
+      <div class="card-panel-title">
+        <span><i class="bi bi-translate me-2 text-warning"></i> Languages Catalog</span>
+        <% if (currentUser && currentUser.role === 'Admin') { %>
+          <button class="btn btn-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#addLangForm">
+            <i class="bi bi-plus-lg me-1"></i> Add Language
+          </button>
+        <% } %>
+      </div>
+
+      <div class="collapse mb-3" id="addLangForm">
+        <form method="post" action="/locations/language" class="p-3 bg-light rounded border">
+          <div class="input-group">
+            <input type="text" name="name" class="form-control" placeholder="Language name (e.g. English, Hindi)" required>
+            <button type="submit" class="btn btn-success fw-semibold">Save</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="d-flex flex-wrap gap-2">
+        <% languages.forEach(l => { %>
+          <div class="badge text-bg-light border p-2 d-flex align-items-center gap-2 fs-6">
+            <i class="bi bi-chat-quote-fill text-warning"></i>
+            <%= l.name %>
+            <% if (currentUser && currentUser.role === 'Admin') { %>
+              <form method="post" action="/locations/language/<%= l._id %>?_method=DELETE" class="d-inline" onsubmit="return confirm('Delete language?');">
+                <button type="submit" class="btn-close btn-close-xs" style="font-size: 0.65rem;" title="Delete"></button>
+              </form>
+            <% } %>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <!-- Registered Addresses Card -->
+    <div class="card-panel">
+      <div class="card-panel-title">
+        <span><i class="bi bi-geo-alt-fill me-2 text-danger"></i> Registered Addresses</span>
+        <% if (currentUser && currentUser.role === 'Admin') { %>
+          <button class="btn btn-primary btn-sm" data-bs-toggle="collapse" data-bs-target="#addAddressForm">
+            <i class="bi bi-plus-lg me-1"></i> Add Address
+          </button>
+        <% } %>
+      </div>
+
+      <div class="collapse mb-3" id="addAddressForm">
+        <form method="post" action="/locations/address" class="p-3 bg-light rounded border">
+          <div class="row g-2">
+            <div class="col-12">
+              <input type="text" name="line1" class="form-control" placeholder="Address Line 1" required>
+            </div>
+            <div class="col-md-6">
+              <input type="text" name="line2" class="form-control" placeholder="Address Line 2 (Optional)">
+            </div>
+            <div class="col-md-6">
+              <input type="text" name="district" class="form-control" placeholder="District">
+            </div>
+            <div class="col-md-6">
+              <select name="city" class="form-select" required>
+                <option value="">Select City</option>
+                <% cities.forEach(c => { %>
+                  <option value="<%= c._id %>"><%= c.name %> (<%= c.country?.name %>)</option>
+                <% }) %>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <input type="text" name="postalCode" class="form-control" placeholder="Postal Code">
+            </div>
+            <div class="col-12">
+              <input type="text" name="phone" class="form-control" placeholder="Phone Number">
+            </div>
+            <div class="col-12 text-end">
+              <button type="submit" class="btn btn-success btn-sm fw-semibold px-3">Save Address</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+        <table class="table table-custom align-middle">
+          <thead>
+            <tr>
+              <th>Address Line</th>
+              <th>City / Country</th>
+              <th>Phone</th>
+              <th class="text-end">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% addresses.forEach(addr => { %>
+              <tr>
+                <td class="fw-medium small"><%= addr.line1 %></td>
+                <td class="small"><%= addr.city?.name %>, <%= addr.city?.country?.name %></td>
+                <td class="small text-muted"><%= addr.phone %></td>
+                <td class="text-end">
+                  <% if (currentUser && currentUser.role === 'Admin') { %>
+                    <form method="post" action="/locations/address/<%= addr._id %>?_method=DELETE" class="d-inline" onsubmit="return confirm('Delete address?');">
+                      <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></button>
+                    </form>
+                  <% } %>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/foot') %>

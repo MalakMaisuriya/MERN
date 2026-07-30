@@ -1,0 +1,139 @@
+<%- include('../partials/head') %>
+
+<!-- Movie Detail Hero -->
+<div class="movie-detail-hero">
+  <div>
+    <img src="<%= movie.poster || 'https://picsum.photos/seed/movie-' + movie._id + '/500/750' %>" alt="<%= movie.title %>" class="movie-detail-poster">
+  </div>
+  <div>
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <span class="badge text-bg-primary fs-6"><%= movie.rating || 'PG' %></span>
+      <span class="text-muted">·</span>
+      <span class="fw-semibold text-secondary"><i class="bi bi-calendar-event me-1"></i><%= movie.releaseYear %></span>
+      <span class="text-muted">·</span>
+      <span class="fw-semibold text-secondary"><i class="bi bi-clock me-1"></i><%= movie.length || 'N/A' %> mins</span>
+    </div>
+
+    <h1 class="fw-bold mb-3" style="font-size: 2.2rem; font-family: var(--font-heading);"><%= movie.title %></h1>
+    
+    <p class="text-secondary lead fs-6 mb-4" style="line-height: 1.6;"><%= movie.description %></p>
+
+    <div class="row g-3 mb-4">
+      <div class="col-sm-6 col-md-3">
+        <div class="p-3 bg-light rounded border">
+          <span class="text-muted small d-block">Rental Rate</span>
+          <strong class="fs-4 text-primary">₹<%= movie.rentalRate.toFixed(2) %></strong>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="p-3 bg-light rounded border">
+          <span class="text-muted small d-block">Rental Duration</span>
+          <strong class="fs-4 text-dark"><%= movie.rentalDuration %> Days</strong>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="p-3 bg-light rounded border">
+          <span class="text-muted small d-block">Replacement Cost</span>
+          <strong class="fs-4 text-dark">₹<%= movie.replacementCost.toFixed(2) %></strong>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-3">
+        <div class="p-3 bg-light rounded border">
+          <span class="text-muted small d-block">Language</span>
+          <strong class="fs-5 text-dark"><%= movie.language?.name || 'N/A' %></strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <strong class="d-block text-secondary small text-uppercase fw-bold mb-1">Categories</strong>
+      <div class="d-flex flex-wrap gap-1.5">
+        <% if (movie.categories && movie.categories.length) { %>
+          <% movie.categories.forEach(cat => { %>
+            <span class="badge text-bg-light border px-2.5 py-1.5 fs-7"><%= cat.name %></span>
+          <% }) %>
+        <% } else { %>
+          <span class="text-muted small">None assigned</span>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <strong class="d-block text-secondary small text-uppercase fw-bold mb-1">Featured Cast / Actors</strong>
+      <div class="d-flex flex-wrap gap-2">
+        <% if (movie.actors && movie.actors.length) { %>
+          <% movie.actors.forEach(actor => { %>
+            <a href="/actors/<%= actor._id %>" class="btn btn-outline-secondary btn-sm rounded-pill">
+              <i class="bi bi-person-circle me-1 text-primary"></i>
+              <%= actor.firstName %> <%= actor.lastName %>
+            </a>
+          <% }) %>
+        <% } else { %>
+          <span class="text-muted small">No actors listed</span>
+        <% } %>
+      </div>
+    </div>
+
+    <% if (currentUser && currentUser.role === 'Admin') { %>
+      <div class="d-flex gap-2 pt-2 border-top">
+        <a href="/movies/<%= movie._id %>/edit" class="btn btn-primary">
+          <i class="bi bi-pencil me-1"></i> Edit Movie
+        </a>
+        <form method="post" action="/movies/<%= movie._id %>?_method=DELETE" onsubmit="return confirm('Are you sure you want to deactivate this movie?');">
+          <button class="btn btn-outline-danger">
+            <i class="bi bi-trash me-1"></i> Deactivate
+          </button>
+        </form>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<!-- Store Inventory Copies Availability Table -->
+<div class="card-panel">
+  <div class="card-panel-title">
+    <span><i class="bi bi-boxes me-2 text-primary"></i> Inventory & Store Copies Availability</span>
+    <a href="/rentals/new" class="btn btn-success btn-sm"><i class="bi bi-plus-lg me-1"></i> Create Rental Order</a>
+  </div>
+  
+  <div class="table-responsive">
+    <table class="table table-custom align-middle">
+      <thead>
+        <tr>
+          <th>SKU / Copy ID</th>
+          <th>Store Location</th>
+          <th>Status</th>
+          <th>Availability</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (inventory && inventory.length) { %>
+          <% inventory.forEach(item => { %>
+            <tr>
+              <td class="fw-bold font-monospace"><%= item.sku %></td>
+              <td><i class="bi bi-shop me-1 text-muted"></i><%= item.store?.name || 'N/A' %></td>
+              <td>
+                <span class="badge-custom <%= item.status === 'Available' ? 'badge-available' : (item.status === 'Rented' ? 'badge-rented' : 'badge-overdue') %>">
+                  <%= item.status %>
+                </span>
+              </td>
+              <td>
+                <% if (item.available) { %>
+                  <span class="text-success small fw-bold"><i class="bi bi-check-circle-fill me-1"></i> Ready to Rent</span>
+                <% } else { %>
+                  <span class="text-muted small"><i class="bi bi-dash-circle me-1"></i> Currently Unavailable</span>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="4" class="text-center text-muted py-3">No inventory copies registered for this movie yet.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('../partials/foot') %>

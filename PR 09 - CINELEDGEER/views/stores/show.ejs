@@ -1,0 +1,114 @@
+<%- include('../partials/head') %>
+
+<!-- Store Banner -->
+<div class="card-panel mb-4">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 border-bottom pb-4 mb-4">
+    <div>
+      <span class="badge text-bg-primary px-3 py-1.5 mb-2 fs-7">Store Branch</span>
+      <h1 class="fw-bold mb-1" style="font-family: var(--font-heading);"><%= store.name %></h1>
+      <p class="text-secondary small mb-0">
+        <i class="bi bi-geo-alt me-1 text-danger"></i>
+        <%= store.address?.line1 %>, <%= store.address?.city?.name %>, <%= store.address?.city?.country?.name %>
+      </p>
+    </div>
+
+    <div class="p-3 bg-light rounded border">
+      <span class="text-muted small d-block">Branch Manager</span>
+      <strong class="fs-5 text-dark"><i class="bi bi-person-badge me-1 text-primary"></i><%= store.manager ? `${store.manager.firstName} ${store.manager.lastName}` : 'Unassigned' %></strong>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-md-6">
+      <div class="p-3 bg-light rounded border">
+        <span class="text-muted small d-block">Total Inventory Items Stocked</span>
+        <strong class="fs-4 text-primary"><%= inventory.length %> Copies</strong>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="p-3 bg-light rounded border">
+        <span class="text-muted small d-block">Total Rentals Dispatched</span>
+        <strong class="fs-4 text-success"><%= rentals.length %> Orders</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Inventory & Rentals tabs -->
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card-panel h-100 mb-0">
+      <div class="card-panel-title">
+        <span><i class="bi bi-boxes me-2 text-primary"></i> Store Inventory Stock</span>
+        <a href="/inventory" class="btn btn-link btn-sm p-0">Manage Stock</a>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-custom align-middle">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Movie Title</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (inventory && inventory.length) { %>
+              <% inventory.forEach(inv => { %>
+                <tr>
+                  <td class="fw-mono text-muted small"><%= inv.sku %></td>
+                  <td class="fw-semibold"><%= inv.movie?.title %></td>
+                  <td>
+                    <span class="badge-custom <%= inv.status === 'Available' ? 'badge-available' : 'badge-rented' %>">
+                      <%= inv.status %>
+                    </span>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr><td colspan="3" class="text-center text-muted py-3">No inventory items stocked in this store.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card-panel h-100 mb-0">
+      <div class="card-panel-title">
+        <span><i class="bi bi-arrow-left-right me-2 text-success"></i> Branch Rentals</span>
+        <a href="/rentals" class="btn btn-link btn-sm p-0">View All</a>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-custom align-middle">
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Movie Rented</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (rentals && rentals.length) { %>
+              <% rentals.forEach(r => { %>
+                <tr>
+                  <td class="fw-semibold"><%= r.customer?.firstName %> <%= r.customer?.lastName %></td>
+                  <td><%= r.inventory?.movie?.title %></td>
+                  <td>
+                    <span class="badge-custom <%= r.status === 'Active' ? 'badge-rented' : 'badge-available' %>">
+                      <%= r.status %>
+                    </span>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr><td colspan="3" class="text-center text-muted py-3">No rentals recorded for this store branch.</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/foot') %>

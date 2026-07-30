@@ -1,0 +1,65 @@
+<aside class="sidebar">
+  <div class="brand-wrapper">
+    <div class="brand-icon">
+      <i class="bi bi-film"></i>
+    </div>
+    <div>
+      <h2 class="brand-title">CineLedger</h2>
+      <span class="brand-tag">Movie Rental System</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-title">Main Menu</div>
+    <a href="/dashboard" class="<%= (typeof title !== 'undefined' && title === 'Dashboard') ? 'active' : '' %>">
+      <i class="bi bi-grid-1x2-fill"></i>
+      <span>Dashboard</span>
+    </a>
+    <a href="/movies" class="<%= (typeof title !== 'undefined' && title.includes('Movie')) ? 'active' : '' %>">
+      <i class="bi bi-collection-play-fill"></i>
+      <span>Movies</span>
+    </a>
+    <a href="/rentals" class="<%= (typeof title !== 'undefined' && title.includes('Rental')) ? 'active' : '' %>">
+      <i class="bi bi-arrow-left-right"></i>
+      <span>Rentals</span>
+    </a>
+    <a href="/payments" class="<%= (typeof title !== 'undefined' && title.includes('Payment')) ? 'active' : '' %>">
+      <i class="bi bi-credit-card-2-front-fill"></i>
+      <span>Payments</span>
+    </a>
+    <a href="/customers" class="<%= (typeof title !== 'undefined' && title.includes('Customer')) ? 'active' : '' %>">
+      <i class="bi bi-people-fill"></i>
+      <span>Customers</span>
+    </a>
+    <a href="/inventory" class="<%= (typeof title !== 'undefined' && title.includes('Inventory')) ? 'active' : '' %>">
+      <i class="bi bi-boxes"></i>
+      <span>Inventory</span>
+    </a>
+
+    <div class="nav-section-title">Catalog & Management</div>
+    <a href="/actors" class="<%= (typeof title !== 'undefined' && title.includes('Actor')) ? 'active' : '' %>">
+      <i class="bi bi-person-video2"></i>
+      <span>Actors</span>
+    </a>
+    <a href="/categories" class="<%= (typeof title !== 'undefined' && title.includes('Categor')) ? 'active' : '' %>">
+      <i class="bi bi-tags-fill"></i>
+      <span>Categories</span>
+    </a>
+
+    <% if (currentUser && currentUser.role === 'Admin') { %>
+      <div class="nav-section-title">Administration</div>
+      <a href="/stores" class="<%= (typeof title !== 'undefined' && title.includes('Store')) ? 'active' : '' %>">
+        <i class="bi bi-shop"></i>
+        <span>Stores</span>
+      </a>
+      <a href="/locations" class="<%= (typeof title !== 'undefined' && title.includes('Location')) ? 'active' : '' %>">
+        <i class="bi bi-geo-alt-fill"></i>
+        <span>Locations</span>
+      </a>
+      <a href="/staff" class="<%= (typeof title !== 'undefined' && title.includes('Staff')) ? 'active' : '' %>">
+        <i class="bi bi-person-badge-fill"></i>
+        <span>Staff Accounts</span>
+      </a>
+    <% } %>
+  </nav>
+</aside>

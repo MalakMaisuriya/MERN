@@ -1,0 +1,110 @@
+<%- include('../partials/head') %>
+
+<div class="toolbar-card">
+  <form class="filter-form" method="get" action="/inventory">
+    <select class="form-select" name="store" style="max-width: 220px;">
+      <option value="">All Stores</option>
+      <% stores.forEach(s => { %>
+        <option value="<%= s._id %>" <%= String(filters.store) === String(s._id) ? 'selected' : '' %>><%= s.name %></option>
+      <% }) %>
+    </select>
+
+    <select class="form-select" name="movie" style="max-width: 240px;">
+      <option value="">All Movies</option>
+      <% movies.forEach(m => { %>
+        <option value="<%= m._id %>" <%= String(filters.movie) === String(m._id) ? 'selected' : '' %>><%= m.title %></option>
+      <% }) %>
+    </select>
+
+    <select class="form-select" name="status" style="max-width: 160px;">
+      <option value="">All Statuses</option>
+      <% ['Available', 'Rented', 'Maintenance', 'Lost'].forEach(st => { %>
+        <option value="<%= st %>" <%= filters.status === st ? 'selected' : '' %>><%= st %></option>
+      <% }) %>
+    </select>
+
+    <button type="submit" class="btn btn-dark fw-semibold">Filter</button>
+
+    <% if (filters.store || filters.movie || filters.status) { %>
+      <a href="/inventory" class="btn btn-outline-secondary" title="Reset Filters">
+        <i class="bi bi-x-circle"></i>
+      </a>
+    <% } %>
+
+    <% if (currentUser && currentUser.role === 'Admin') { %>
+      <a href="/inventory/new" class="btn btn-primary ms-auto fw-semibold">
+        <i class="bi bi-plus-lg me-1"></i> Add Inventory Copies
+      </a>
+    <% } %>
+  </form>
+</div>
+
+<div class="card-panel">
+  <div class="table-responsive">
+    <table class="table table-custom align-middle">
+      <thead>
+        <tr>
+          <th>SKU / Serial</th>
+          <th>Movie Title</th>
+          <th>Store Location</th>
+          <th>Status</th>
+          <th>Availability</th>
+          <th class="text-end">Update Status / Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (items && items.length) { %>
+          <% items.forEach(item => { %>
+            <tr>
+              <td class="fw-bold font-monospace"><%= item.sku %></td>
+              <td>
+                <a href="/movies/<%= item.movie?._id %>" class="fw-semibold text-decoration-none text-dark">
+                  <%= item.movie?.title || 'N/A' %>
+                </a>
+              </td>
+              <td>
+                <span class="badge text-bg-light border">
+                  <i class="bi bi-shop me-1 text-muted"></i><%= item.store?.name || 'N/A' %>
+                </span>
+              </td>
+              <td>
+                <span class="badge-custom <%= item.status === 'Available' ? 'badge-available' : (item.status === 'Rented' ? 'badge-rented' : 'badge-overdue') %>">
+                  <%= item.status %>
+                </span>
+              </td>
+              <td>
+                <% if (item.available) { %>
+                  <span class="badge text-bg-success">Ready</span>
+                <% } else { %>
+                  <span class="badge text-bg-secondary">Out</span>
+                <% } %>
+              </td>
+              <td class="text-end">
+                <form method="post" action="/inventory/<%= item._id %>/status?_method=PUT" class="d-inline-flex align-items-center gap-1">
+                  <select name="status" class="form-select form-select-sm" style="width: 130px;" onchange="this.form.submit()">
+                    <% ['Available', 'Rented', 'Maintenance', 'Lost'].forEach(s => { %>
+                      <option value="<%= s %>" <%= item.status === s ? 'selected' : '' %>><%= s %></option>
+                    <% }) %>
+                  </select>
+                </form>
+
+                <% if (currentUser && currentUser.role === 'Admin') { %>
+                  <form method="post" action="/inventory/<%= item._id %>?_method=DELETE" onsubmit="return confirm('Remove copy?');" class="d-inline ms-1">
+                    <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash"></i></button>
+                  </form>
+                <% } %>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="6" class="text-center text-muted py-4">No inventory items found matching filters.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('../partials/pagination', { page, pages, total, filters }) %>
+<%- include('../partials/foot') %>

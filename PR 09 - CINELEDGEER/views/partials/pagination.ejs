@@ -1,0 +1,48 @@
+<% if (typeof pages !== 'undefined' && pages > 1) { %>
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mt-4 pt-2 border-top">
+    <div class="text-muted small">
+      Showing page <span class="fw-semibold text-dark"><%= page %></span> of <span class="fw-semibold text-dark"><%= pages %></span> (Total <span class="fw-semibold text-dark"><%= total %></span> records)
+    </div>
+
+    <nav aria-label="Page navigation">
+      <ul class="pagination pagination-sm mb-0">
+        <!-- Previous Page Link -->
+        <li class="page-item <%= page <= 1 ? 'disabled' : '' %>">
+          <% 
+            const prevParams = new URLSearchParams(filters || {});
+            prevParams.set('page', page - 1);
+          %>
+          <a class="page-link" href="?<%= prevParams.toString() %>">
+            <i class="bi bi-chevron-left"></i> Previous
+          </a>
+        </li>
+
+        <!-- Page Numbers -->
+        <% for(let p = 1; p <= pages; p++) { %>
+          <% if (p === 1 || p === pages || (p >= page - 2 && p <= page + 2)) { %>
+            <% 
+              const pageParams = new URLSearchParams(filters || {});
+              pageParams.set('page', p);
+            %>
+            <li class="page-item <%= p === page ? 'active' : '' %>">
+              <a class="page-link" href="?<%= pageParams.toString() %>"><%= p %></a>
+            </li>
+          <% } else if (p === page - 3 || p === page + 3) { %>
+            <li class="page-item disabled"><span class="page-link">...</span></li>
+          <% } %>
+        <% } %>
+
+        <!-- Next Page Link -->
+        <li class="page-item <%= page >= pages ? 'disabled' : '' %>">
+          <% 
+            const nextParams = new URLSearchParams(filters || {});
+            nextParams.set('page', page + 1);
+          %>
+          <a class="page-link" href="?<%= nextParams.toString() %>">
+            Next <i class="bi bi-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+<% } %>

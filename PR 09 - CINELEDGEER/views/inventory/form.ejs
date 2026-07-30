@@ -1,0 +1,55 @@
+<%- include('../partials/head') %>
+
+<div class="card-panel" style="max-width: 600px; margin: 0 auto;">
+  <div class="card-panel-title border-bottom pb-3 mb-4">
+    <span><i class="bi bi-boxes me-2 text-primary"></i> <%= title %></span>
+    <a href="/inventory" class="btn btn-outline-secondary btn-sm">Back to Inventory</a>
+  </div>
+
+  <%- include('../partials/errors', { errors }) %>
+
+  <form method="post" action="/inventory">
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Target Movie <span class="text-danger">*</span></label>
+      <select class="form-select" name="movie" required>
+        <option value="">Select Movie</option>
+        <% movies.forEach(m => { %>
+          <option value="<%= m._id %>"><%= m.title %> (<%= m.releaseYear %>)</option>
+        <% }) %>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Target Store <span class="text-danger">*</span></label>
+      <select class="form-select" name="store" required>
+        <option value="">Select Store Location</option>
+        <% stores.forEach(s => { %>
+          <option value="<%= s._id %>"><%= s.name %></option>
+        <% }) %>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Number of Physical Copies to Add</label>
+      <input type="number" class="form-control" name="quantity" value="1" min="1" max="50" required>
+      <div class="form-text">System will automatically generate unique SKUs for each copy.</div>
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label fw-semibold">Initial Copy Status</label>
+      <select class="form-select" name="status">
+        <option value="Available" selected>Available</option>
+        <option value="Maintenance">Maintenance</option>
+      </select>
+    </div>
+
+    <div class="pt-3 border-top d-flex gap-2">
+      <button type="submit" class="btn btn-primary fw-semibold px-4">
+        <i class="bi bi-check-lg me-1"></i> Add Inventory Copies
+      </button>
+      <a href="/inventory" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/foot') %>

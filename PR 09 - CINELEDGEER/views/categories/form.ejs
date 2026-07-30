@@ -1,0 +1,31 @@
+<%- include('../partials/head') %>
+
+<div class="card-panel" style="max-width: 600px; margin: 0 auto;">
+  <div class="card-panel-title border-bottom pb-3 mb-4">
+    <span><i class="bi bi-tags me-2 text-primary"></i> <%= title %></span>
+    <a href="/categories" class="btn btn-outline-secondary btn-sm">Back to Categories</a>
+  </div>
+
+  <%- include('../partials/errors', { errors }) %>
+
+  <form method="post" action="<%= category._id ? '/categories/' + category._id + '?_method=PUT' : '/categories' %>">
+    <div class="mb-3">
+      <label class="form-label fw-semibold">Category Name <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" name="name" value="<%= category.name || '' %>" placeholder="e.g. Sci-Fi, Action, Thriller" required>
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label fw-semibold">Description</label>
+      <textarea class="form-control" name="description" rows="3" placeholder="Brief description of movies in this category..."><%= category.description || '' %></textarea>
+    </div>
+
+    <div class="pt-3 border-top d-flex gap-2">
+      <button type="submit" class="btn btn-primary fw-semibold px-4">
+        <i class="bi bi-check-lg me-1"></i> Save Category
+      </button>
+      <a href="/categories" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+
+<%- include('../partials/foot') %>

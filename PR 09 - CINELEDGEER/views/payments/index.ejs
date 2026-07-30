@@ -1,0 +1,88 @@
+<%- include('../partials/head') %>
+
+<div class="toolbar-card">
+  <form class="filter-form" method="get" action="/payments">
+    <select class="form-select" name="customer" style="max-width: 220px;">
+      <option value="">All Customers</option>
+      <% customers.forEach(c => { %>
+        <option value="<%= c._id %>" <%= String(filters.customer) === String(c._id) ? 'selected' : '' %>><%= c.firstName %> <%= c.lastName %></option>
+      <% }) %>
+    </select>
+
+    <select class="form-select" name="method" style="max-width: 150px;">
+      <option value="">All Methods</option>
+      <% ['Cash', 'Card', 'UPI'].forEach(m => { %>
+        <option value="<%= m %>" <%= filters.method === m ? 'selected' : '' %>><%= m %></option>
+      <% }) %>
+    </select>
+
+    <input type="date" class="form-control" name="from" value="<%= filters.from || '' %>" style="max-width: 160px;" title="From Date">
+    <input type="date" class="form-control" name="to" value="<%= filters.to || '' %>" style="max-width: 160px;" title="To Date">
+
+    <button type="submit" class="btn btn-dark fw-semibold">Filter</button>
+
+    <% if (filters.customer || filters.method || filters.from || filters.to) { %>
+      <a href="/payments" class="btn btn-outline-secondary" title="Reset Filters">
+        <i class="bi bi-x-circle"></i>
+      </a>
+    <% } %>
+
+    <a href="/payments/new" class="btn btn-primary ms-auto fw-semibold">
+      <i class="bi bi-plus-lg me-1"></i> Record Payment
+    </a>
+  </form>
+</div>
+
+<div class="card-panel">
+  <div class="table-responsive">
+    <table class="table table-custom align-middle">
+      <thead>
+        <tr>
+          <th>Payment ID</th>
+          <th>Customer</th>
+          <th>Movie Rental Reference</th>
+          <th>Method</th>
+          <th>Amount</th>
+          <th>Payment Date</th>
+          <th>Staff Agent</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (items && items.length) { %>
+          <% items.forEach(p => { %>
+            <tr>
+              <td class="fw-bold font-monospace text-muted" style="font-size: 0.8rem;">
+                PAY-<%= p._id.toString().slice(-6).toUpperCase() %>
+              </td>
+              <td class="fw-semibold">
+                <a href="/customers/<%= p.customer?._id %>" class="text-decoration-none text-dark">
+                  <%= p.customer?.firstName %> <%= p.customer?.lastName %>
+                </a>
+              </td>
+              <td>
+                <span class="small font-monospace text-muted">
+                  <%= p.rental?.inventory?.movie?.title || 'Rental Order' %>
+                </span>
+              </td>
+              <td><span class="badge text-bg-light border px-2.5 py-1.5"><%= p.paymentMethod %></span></td>
+              <td class="fw-bold text-success fs-6">₹<%= p.amount.toFixed(2) %></td>
+              <td class="small text-muted"><%= new Date(p.paymentDate).toLocaleDateString() %></td>
+              <td class="small text-muted"><%= p.staff?.firstName %> <%= p.staff?.lastName %></td>
+              <td>
+                <span class="badge-custom badge-available"><%= p.status %></span>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="8" class="text-center text-muted py-4">No payment records found matching query parameters.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('../partials/pagination', { page, pages, total, filters }) %>
+<%- include('../partials/foot') %>
