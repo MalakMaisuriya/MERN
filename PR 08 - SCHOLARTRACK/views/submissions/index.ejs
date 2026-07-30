@@ -1,0 +1,93 @@
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">Workspace</p>
+    <h1>Submissions</h1>
+  </div>
+  <a href="/submissions/new" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Submission</a>
+</div>
+
+<section class="panel filter-panel">
+  <form action="/submissions" method="GET" class="filter-form">
+    <input type="search" class="form-control" name="search" value="<%= filters.search || '' %>" placeholder="Search title, subject or notes">
+    <select class="form-select" name="status">
+      <option value="">All statuses</option>
+      <% statuses.forEach((status) => { %>
+        <option value="<%= status %>" <%= filters.status === status ? 'selected' : '' %>><%= status %></option>
+      <% }) %>
+    </select>
+    <select class="form-select" name="type">
+      <option value="">All types</option>
+      <% types.forEach((type) => { %>
+        <option value="<%= type %>" <%= filters.type === type ? 'selected' : '' %>><%= type %></option>
+      <% }) %>
+    </select>
+    <select class="form-select" name="priority">
+      <option value="">All priorities</option>
+      <% priorities.forEach((priority) => { %>
+        <option value="<%= priority %>" <%= filters.priority === priority ? 'selected' : '' %>><%= priority %></option>
+      <% }) %>
+    </select>
+    <select class="form-select" name="sort">
+      <option value="newest" <%= filters.sort === 'newest' ? 'selected' : '' %>>Newest</option>
+      <option value="dueSoon" <%= filters.sort === 'dueSoon' ? 'selected' : '' %>>Due soon</option>
+      <option value="title" <%= filters.sort === 'title' ? 'selected' : '' %>>Title A-Z</option>
+      <option value="priority" <%= filters.sort === 'priority' ? 'selected' : '' %>>Priority</option>
+    </select>
+    <button class="btn btn-dark" type="submit"><i class="bi bi-funnel"></i> Apply</button>
+    <a class="btn btn-light" href="/submissions">Reset</a>
+  </form>
+</section>
+
+<section class="panel">
+  <div class="panel-header">
+    <h2><%= total %> record<%= total === 1 ? '' : 's' %></h2>
+  </div>
+  <% if (submissions.length) { %>
+    <div class="table-responsive">
+      <table class="table align-middle app-table">
+        <thead>
+          <tr>
+            <th>Submission</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Due Date</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% submissions.forEach((item) => { %>
+            <tr>
+              <td>
+                <strong><%= item.title %></strong>
+                <span><%= item.subject %></span>
+              </td>
+              <td><%= item.type %></td>
+              <td><span class="status-pill <%= item.status.toLowerCase().replaceAll(' ', '-') %>"><%= item.status %></span></td>
+              <td><span class="priority <%= item.priority.toLowerCase() %>"><%= item.priority %></span></td>
+              <td><%= new Date(item.dueDate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) %></td>
+              <td class="text-end">
+                <a href="/submissions/<%= item._id %>" class="btn btn-sm btn-light" title="View"><i class="bi bi-eye"></i></a>
+                <a href="/submissions/<%= item._id %>/edit" class="btn btn-sm btn-light" title="Edit"><i class="bi bi-pencil"></i></a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <% if (pages > 1) { %>
+      <nav class="pagination-wrap">
+        <% for (let i = 1; i <= pages; i += 1) { const query = new URLSearchParams({ ...filters, page: i }).toString(); %>
+          <a class="page-link <%= page === i ? 'active' : '' %>" href="/submissions?<%= query %>"><%= i %></a>
+        <% } %>
+      </nav>
+    <% } %>
+  <% } else { %>
+    <div class="empty-state">
+      <i class="bi bi-folder-plus"></i>
+      <h2>No submissions found</h2>
+      <p>Create a record or adjust the filters to see your work here.</p>
+      <a href="/submissions/new" class="btn btn-primary">Create Submission</a>
+    </div>
+  <% } %>
+</section>

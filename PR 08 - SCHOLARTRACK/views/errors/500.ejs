@@ -1,0 +1,8 @@
+<section class="error-page">
+  <div>
+    <p class="eyebrow">500</p>
+    <h1>Server error</h1>
+    <p><%= message %></p>
+    <a href="<%= currentUser ? '/dashboard' : '/auth/login' %>" class="btn btn-primary">Go back home</a>
+  </div>
+</section>

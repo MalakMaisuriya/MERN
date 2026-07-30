@@ -1,0 +1,16 @@
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">Update record</p>
+    <h1>Edit Submission</h1>
+  </div>
+  <a href="/submissions/<%= submission._id %>" class="btn btn-light"><i class="bi bi-arrow-left"></i> Back</a>
+</div>
+
+<section class="panel">
+  <%- include('_form', {
+    action: `/submissions/${submission._id}`,
+    method: 'PUT',
+    submitLabel: 'Update Submission',
+    cancelHref: `/submissions/${submission._id}`
+  }) %>
+</section>

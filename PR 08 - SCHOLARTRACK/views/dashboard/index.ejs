@@ -1,0 +1,80 @@
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">Overview</p>
+    <h1>Dashboard</h1>
+  </div>
+  <a href="/submissions/new" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Submission</a>
+</div>
+
+<div class="stats-grid">
+  <div class="metric-card">
+    <span>Total records</span>
+    <strong><%= stats.total %></strong>
+  </div>
+  <div class="metric-card">
+    <span>Active work</span>
+    <strong><%= stats.active %></strong>
+  </div>
+  <div class="metric-card danger">
+    <span>Overdue</span>
+    <strong><%= stats.overdue %></strong>
+  </div>
+  <div class="metric-card success">
+    <span>Reviewed</span>
+    <strong><%= stats.reviewed %></strong>
+  </div>
+</div>
+
+<div class="dashboard-grid">
+  <section class="panel">
+    <div class="panel-header">
+      <h2>Recent Activity</h2>
+      <a href="/submissions" class="link-primary">View all</a>
+    </div>
+    <% if (recent.length) { %>
+      <div class="activity-list">
+        <% recent.forEach((item) => { %>
+          <a href="/submissions/<%= item._id %>" class="activity-item">
+            <div>
+              <strong><%= item.title %></strong>
+              <span><%= item.subject %> &middot; <%= item.type %></span>
+            </div>
+            <span class="status-pill <%= item.status.toLowerCase().replaceAll(' ', '-') %>"><%= item.status %></span>
+          </a>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="empty-state compact">
+        <i class="bi bi-inboxes"></i>
+        <p>No submissions yet.</p>
+        <a href="/submissions/new" class="btn btn-sm btn-primary">Create first record</a>
+      </div>
+    <% } %>
+  </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <h2>Breakdown</h2>
+    </div>
+    <h3 class="mini-heading">By status</h3>
+    <div class="breakdown-list">
+      <% if (statusBreakdown.length) { %>
+        <% statusBreakdown.forEach((item) => { %>
+          <div><span><%= item._id %></span><strong><%= item.count %></strong></div>
+        <% }) %>
+      <% } else { %>
+        <p class="text-muted">No status data available.</p>
+      <% } %>
+    </div>
+    <h3 class="mini-heading mt-4">By priority</h3>
+    <div class="breakdown-list">
+      <% if (priorityBreakdown.length) { %>
+        <% priorityBreakdown.forEach((item) => { %>
+          <div><span><%= item._id %></span><strong><%= item.count %></strong></div>
+        <% }) %>
+      <% } else { %>
+        <p class="text-muted">No priority data available.</p>
+      <% } %>
+    </div>
+  </section>
+</div>

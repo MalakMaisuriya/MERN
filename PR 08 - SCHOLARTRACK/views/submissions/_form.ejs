@@ -1,0 +1,56 @@
+<%- include('../partials/validation') %>
+<form action="<%= action %>" method="POST" class="record-form">
+  <% if (method && method !== 'POST') { %>
+    <input type="hidden" name="_method" value="<%= method %>">
+  <% } %>
+  <div class="row g-3">
+    <div class="col-md-8">
+      <label for="title" class="form-label">Title</label>
+      <input type="text" class="form-control" id="title" name="title" value="<%= formData.title || '' %>" required>
+    </div>
+    <div class="col-md-4">
+      <label for="subject" class="form-label">Subject</label>
+      <input type="text" class="form-control" id="subject" name="subject" value="<%= formData.subject || '' %>" required>
+    </div>
+    <div class="col-md-4">
+      <label for="type" class="form-label">Type</label>
+      <select class="form-select" id="type" name="type" required>
+        <% types.forEach((type) => { %>
+          <option value="<%= type %>" <%= formData.type === type ? 'selected' : '' %>><%= type %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label for="status" class="form-label">Status</label>
+      <select class="form-select" id="status" name="status" required>
+        <% statuses.forEach((status) => { %>
+          <option value="<%= status %>" <%= (formData.status || 'Planned') === status ? 'selected' : '' %>><%= status %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label for="priority" class="form-label">Priority</label>
+      <select class="form-select" id="priority" name="priority" required>
+        <% priorities.forEach((priority) => { %>
+          <option value="<%= priority %>" <%= (formData.priority || 'Medium') === priority ? 'selected' : '' %>><%= priority %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label for="dueDate" class="form-label">Due date</label>
+      <input type="date" class="form-control" id="dueDate" name="dueDate" value="<%= formData.dueDate ? new Date(formData.dueDate).toISOString().slice(0, 10) : '' %>" required>
+    </div>
+    <div class="col-md-6">
+      <label for="marks" class="form-label">Marks</label>
+      <input type="number" min="0" max="100" class="form-control" id="marks" name="marks" value="<%= formData.marks ?? '' %>" placeholder="Optional">
+    </div>
+    <div class="col-12">
+      <label for="notes" class="form-label">Notes</label>
+      <textarea class="form-control" id="notes" name="notes" rows="5" maxlength="800"><%= formData.notes || '' %></textarea>
+    </div>
+  </div>
+  <div class="form-actions">
+    <a href="<%= cancelHref %>" class="btn btn-light">Cancel</a>
+    <button class="btn btn-primary" type="submit"><%= submitLabel %></button>
+  </div>
+</form>

@@ -1,0 +1,38 @@
+<div class="auth-card">
+  <div class="auth-copy">
+    <p class="eyebrow">Start organized</p>
+    <h1>Create your ScholarTrack workspace.</h1>
+    <p>Keep submission deadlines, statuses, marks and notes in a secure personal dashboard.</p>
+  </div>
+  <div class="form-card">
+    <h2>Create Account</h2>
+    <p class="text-muted mb-4">All fields are required.</p>
+    <%- include('../partials/validation') %>
+    <form action="/auth/register" method="POST" class="stacked-form">
+      <div>
+        <label for="name" class="form-label">Full name</label>
+        <input type="text" class="form-control" id="name" name="name" value="<%= formData.name || '' %>" required>
+      </div>
+      <div>
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username" value="<%= formData.username || '' %>" required>
+      </div>
+      <div>
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" value="<%= formData.email || '' %>" required>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="col-md-6">
+          <label for="confirmPassword" class="form-label">Confirm password</label>
+          <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+        </div>
+      </div>
+      <button class="btn btn-primary w-100" type="submit">Create Account</button>
+    </form>
+    <p class="switch-link">Already registered? <a href="/auth/login">Login</a></p>
+  </div>
+</div>

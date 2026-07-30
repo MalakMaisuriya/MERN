@@ -1,0 +1,13 @@
+<aside class="sidebar">
+  <nav class="sidebar-nav">
+    <a href="/dashboard" class="nav-link <%= currentPath.startsWith('/dashboard') ? 'active' : '' %>">
+      <i class="bi bi-grid-1x2"></i><span>Dashboard</span>
+    </a>
+    <a href="/submissions" class="nav-link <%= currentPath.startsWith('/submissions') ? 'active' : '' %>">
+      <i class="bi bi-folder2-open"></i><span>Submissions</span>
+    </a>
+    <a href="/submissions/new" class="nav-link action-link">
+      <i class="bi bi-plus-circle"></i><span>New Record</span>
+    </a>
+  </nav>
+</aside>

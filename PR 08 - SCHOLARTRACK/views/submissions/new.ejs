@@ -1,0 +1,16 @@
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">Create record</p>
+    <h1>New Submission</h1>
+  </div>
+  <a href="/submissions" class="btn btn-light"><i class="bi bi-arrow-left"></i> Back</a>
+</div>
+
+<section class="panel">
+  <%- include('_form', {
+    action: '/submissions',
+    method: 'POST',
+    submitLabel: 'Save Submission',
+    cancelHref: '/submissions'
+  }) %>
+</section>
