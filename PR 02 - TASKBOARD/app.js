@@ -58,6 +58,7 @@ app.get("/delete/:id", (req, res) => {
 
 app.get("/edit/:id", (req, res) => {
     const task = tasks.find(t => t.id == req.params.id);
+    if (!task) return res.redirect("/");
     res.render("edit-task", { task });
 });
 
@@ -65,6 +66,7 @@ app.get("/edit/:id", (req, res) => {
 app.post("/update/:id", (req, res) => {
 
     const task = tasks.find(t => t.id == req.params.id);
+    if (!task) return res.redirect("/");
 
     task.title = req.body.title;
     task.description = req.body.description;
@@ -78,6 +80,7 @@ app.post("/update/:id", (req, res) => {
 app.get("/status/:id", (req, res) => {
 
     const task = tasks.find(t => t.id == req.params.id);
+    if (!task) return res.redirect("/");
 
     if (task.status === "Pending") task.status = "In Progress";
     else if (task.status === "In Progress") task.status = "Completed";
