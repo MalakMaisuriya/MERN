@@ -1,35 +1,43 @@
 <%- include('../partials/head') %>
-<main class="auth-shell">
-  <section class="auth-panel">
-    <a class="brand auth-brand" href="/"><span class="brand-mark">SV</span><span><%= appName %></span></a>
-    <div class="auth-copy">
-      <p class="eyebrow">Admin workspace</p>
-      <h1>Welcome back.</h1>
-      <p>Manage students, courses and placement status from one polished dashboard.</p>
+<div class="auth-container">
+  <div class="auth-box">
+    <div class="auth-header">
+      <div class="brand-logo">
+        <i class="bi bi-mortarboard-fill"></i>
+      </div>
+      <h2>StudentVerse Admin</h2>
+      <p class="auth-subtitle">Sign in to access your student management dashboard</p>
     </div>
 
-    <form class="form-card" action="/login" method="POST" novalidate>
-      <div>
-        <label for="email">Email address</label>
-        <input id="email" name="email" type="email" value="<%= form.email || '' %>" placeholder="admin@studentverse.test" required>
-        <% if (errors.email) { %><small class="field-error"><%= errors.email %></small><% } %>
+    <form class="auth-form" action="/login" method="POST" novalidate autocomplete="off">
+      <div class="form-field">
+        <label for="email">Email Address</label>
+        <div class="input-wrapper">
+          <i class="bi bi-envelope"></i>
+          <input id="email" name="email" type="email" value="<%= (typeof form !== 'undefined' && form.email) ? form.email : '' %>" placeholder="name@domain.com" required autocomplete="off">
+        </div>
+        <% if (typeof errors !== 'undefined' && errors.email) { %><small class="error-msg"><%= errors.email %></small><% } %>
       </div>
-      <div>
+
+      <div class="form-field">
         <label for="password">Password</label>
-        <input id="password" name="password" type="password" placeholder="Your password" required>
-        <% if (errors.password) { %><small class="field-error"><%= errors.password %></small><% } %>
+        <div class="input-wrapper">
+          <i class="bi bi-lock"></i>
+          <input id="password" name="password" type="password" placeholder="••••••••" required autocomplete="off">
+        </div>
+        <% if (typeof errors !== 'undefined' && errors.password) { %><small class="error-msg"><%= errors.password %></small><% } %>
       </div>
-      <button class="primary-button full" type="submit">
-        <i class="bi bi-arrow-right-circle"></i> Sign in
+
+      <button class="btn-submit" type="submit">
+        Sign In <i class="bi bi-arrow-right"></i>
       </button>
-      <p class="form-note">New here? <a href="/register">Create an admin account</a></p>
     </form>
-  </section>
-  <section class="auth-visual" aria-hidden="true">
-    <div class="metric-card floating one"><span>94%</span><small>Profile completion</small></div>
-    <div class="metric-card floating two"><span>18</span><small>Active courses</small></div>
-    <div class="glass-grid"></div>
-  </section>
-</main>
+
+    <div class="auth-footer">
+      <span>Don't have an account?</span>
+      <a href="/register">Register here</a>
+    </div>
+  </div>
+</div>
 <%- include('../partials/flash') %>
 <%- include('../partials/footer') %>

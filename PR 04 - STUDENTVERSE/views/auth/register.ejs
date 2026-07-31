@@ -1,40 +1,52 @@
 <%- include('../partials/head') %>
-<main class="auth-shell">
-  <section class="auth-panel">
-    <a class="brand auth-brand" href="/"><span class="brand-mark">SV</span><span><%= appName %></span></a>
-    <div class="auth-copy">
-      <p class="eyebrow">Create workspace</p>
-      <h1>Start managing smarter.</h1>
-      <p>Build a secure admin profile before adding student records.</p>
+<div class="auth-container">
+  <div class="auth-box">
+    <div class="auth-header">
+      <div class="brand-logo">
+        <i class="bi bi-mortarboard-fill"></i>
+      </div>
+      <h2>Create Admin Account</h2>
+      <p class="auth-subtitle">Register your details below to set up your account</p>
     </div>
 
-    <form class="form-card" action="/register" method="POST" novalidate>
-      <div>
-        <label for="name">Full name</label>
-        <input id="name" name="name" type="text" value="<%= form.name || '' %>" placeholder="Your name" required>
-        <% if (errors.name) { %><small class="field-error"><%= errors.name %></small><% } %>
+    <form class="auth-form" action="/register" method="POST" novalidate autocomplete="off">
+      <div class="form-field">
+        <label for="name">Full Name</label>
+        <div class="input-wrapper">
+          <i class="bi bi-person"></i>
+          <input id="name" name="name" type="text" value="<%= (typeof form !== 'undefined' && form.name) ? form.name : '' %>" placeholder="e.g. Malak Maisuriya" required autocomplete="off">
+        </div>
+        <% if (typeof errors !== 'undefined' && errors.name) { %><small class="error-msg"><%= errors.name %></small><% } %>
       </div>
-      <div>
-        <label for="email">Email address</label>
-        <input id="email" name="email" type="email" value="<%= form.email || '' %>" placeholder="you@example.com" required>
-        <% if (errors.email) { %><small class="field-error"><%= errors.email %></small><% } %>
+
+      <div class="form-field">
+        <label for="email">Email Address</label>
+        <div class="input-wrapper">
+          <i class="bi bi-envelope"></i>
+          <input id="email" name="email" type="email" value="<%= (typeof form !== 'undefined' && form.email) ? form.email : '' %>" placeholder="name@domain.com" required autocomplete="off">
+        </div>
+        <% if (typeof errors !== 'undefined' && errors.email) { %><small class="error-msg"><%= errors.email %></small><% } %>
       </div>
-      <div>
+
+      <div class="form-field">
         <label for="password">Password</label>
-        <input id="password" name="password" type="password" placeholder="Minimum 8 characters" required>
-        <% if (errors.password) { %><small class="field-error"><%= errors.password %></small><% } %>
+        <div class="input-wrapper">
+          <i class="bi bi-lock"></i>
+          <input id="password" name="password" type="password" placeholder="Minimum 8 characters" required autocomplete="off">
+        </div>
+        <% if (typeof errors !== 'undefined' && errors.password) { %><small class="error-msg"><%= errors.password %></small><% } %>
       </div>
-      <button class="primary-button full" type="submit">
-        <i class="bi bi-shield-lock"></i> Create account
+
+      <button class="btn-submit" type="submit">
+        Register Account <i class="bi bi-person-plus"></i>
       </button>
-      <p class="form-note">Already have an account? <a href="/login">Sign in</a></p>
     </form>
-  </section>
-  <section class="auth-visual register" aria-hidden="true">
-    <div class="metric-card floating one"><span>CRUD</span><small>Complete workflow</small></div>
-    <div class="metric-card floating two"><span>JWT</span><small>Session style auth</small></div>
-    <div class="glass-grid"></div>
-  </section>
-</main>
+
+    <div class="auth-footer">
+      <span>Already have an account?</span>
+      <a href="/login">Sign in here</a>
+    </div>
+  </div>
+</div>
 <%- include('../partials/flash') %>
 <%- include('../partials/footer') %>

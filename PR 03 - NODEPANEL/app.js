@@ -1,46 +1,18 @@
-/**
- * ============================================================================
- * Project Name : NodePanel - Admin Dashboard Application
- * Repository   : https://github.com/MalakMaisuriya/MERN
- * File         : app.js
- * Description  : Main Express.js server entry point managing routing, EJS view 
- *                engine, middleware, in-memory CRUD operations, and dashboard stats.
- * ============================================================================
- */
-
 const express = require('express');
 const path = require('path');
 
-// Initialize Express application
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-/**
- * ----------------------------------------------------------------------------
- * Express Configuration & View Engine Setup
- * ----------------------------------------------------------------------------
- */
+// Setup view engine & middleware
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-/**
- * ----------------------------------------------------------------------------
- * Global Middleware Configuration
- * - Serve static files from the 'public' directory (CSS, JS, images)
- * - Parse URL-encoded body data (from HTML form submissions)
- * - Parse JSON payload data
- * ----------------------------------------------------------------------------
- */
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-/**
- * ----------------------------------------------------------------------------
- * In-Memory Database / Data Store
- * Initial seed items representing managed services, database clusters, and APIs.
- * ----------------------------------------------------------------------------
- */
+// In-memory data store
 let itemsStore = [
   {
     id: 1,
@@ -83,10 +55,7 @@ let itemsStore = [
 // Auto-incrementing ID counter for new records
 let nextId = 5;
 
-/**
- * Helper Utility: Calculate Real-time Dashboard Statistics
- * @returns {Object} Total items count, active items, inactive items, and categories count.
- */
+// Helper: Calculate Dashboard Statistics
 function getDashboardStats() {
   const totalItems = itemsStore.length;
   const activeItems = itemsStore.filter(i => i.status === 'Active').length;
@@ -100,17 +69,9 @@ function getDashboardStats() {
   };
 }
 
-/**
- * ----------------------------------------------------------------------------
- * Route Handlers
- * ----------------------------------------------------------------------------
- */
+// Routes
 
-/**
- * GET /
- * Route: Dashboard Overview Page
- * Renders KPI stat cards, system activity logs, and recent items preview.
- */
+// Dashboard Overview Page
 app.get('/', (req, res) => {
   const stats = getDashboardStats();
   const recentItems = [...itemsStore].reverse().slice(0, 5);
@@ -120,30 +81,19 @@ app.get('/', (req, res) => {
   });
 });
 
-/**
- * GET /items
- * Route: Items List Management Page
- * Displays tabular list of all records with category badges and action controls.
- */
+// Items List Management
 app.get('/items', (req, res) => {
   res.render('items', {
     items: itemsStore
   });
 });
 
-/**
- * GET /items/add
- * Route: Render Add New Record Form Page
- */
+// Add Item Form
 app.get('/items/add', (req, res) => {
   res.render('add-item');
 });
 
-/**
- * POST /items/add
- * Route: Process Add Item Form Submission
- * Validates input parameters and appends new record to in-memory store.
- */
+// Handle Add Item
 app.post('/items/add', (req, res) => {
   const { name, category, owner, status, description } = req.body;
   if (!name || !category || !owner) {
@@ -164,10 +114,7 @@ app.post('/items/add', (req, res) => {
   res.redirect('/items');
 });
 
-/**
- * GET /items/edit/:id
- * Route: Render Edit Form for a Specific Record
- */
+// Edit Form
 app.get('/items/edit/:id', (req, res) => {
   const itemId = parseInt(req.params.id, 10);
   const item = itemsStore.find(i => i.id === itemId);
@@ -179,10 +126,7 @@ app.get('/items/edit/:id', (req, res) => {
   res.render('edit-item', { item });
 });
 
-/**
- * POST /items/edit/:id
- * Route: Process Edit Form Updates for an Existing Record
- */
+// Handle Edit Form Update
 app.post('/items/edit/:id', (req, res) => {
   const itemId = parseInt(req.params.id, 10);
   const itemIndex = itemsStore.findIndex(i => i.id === itemId);
@@ -205,10 +149,7 @@ app.post('/items/edit/:id', (req, res) => {
   res.redirect('/items');
 });
 
-/**
- * POST /items/status/:id
- * Route: Toggle Record Status (Active <-> Inactive)
- */
+// Toggle Status (Active / Inactive)
 app.post('/items/status/:id', (req, res) => {
   const itemId = parseInt(req.params.id, 10);
   const item = itemsStore.find(i => i.id === itemId);
@@ -220,38 +161,23 @@ app.post('/items/status/:id', (req, res) => {
   res.redirect('/items');
 });
 
-/**
- * POST /items/delete/:id
- * Route: Delete a Record from Data Store
- */
+// Delete Record
 app.post('/items/delete/:id', (req, res) => {
   const itemId = parseInt(req.params.id, 10);
   itemsStore = itemsStore.filter(i => i.id !== itemId);
   res.redirect('/items');
 });
 
-/**
- * GET /settings
- * Route: Render Admin Settings Page
- */
+// Settings Page
 app.get('/settings', (req, res) => {
   res.render('settings');
 });
 
-/**
- * POST /settings
- * Route: Save Admin Configuration Preferences
- */
 app.post('/settings', (req, res) => {
   res.redirect('/settings');
 });
 
-/**
- * ----------------------------------------------------------------------------
- * 404 Error Catch-All Middleware
- * Handles all unmatched routes gracefully.
- * ----------------------------------------------------------------------------
- */
+// 404 Catch-All
 app.use((req, res) => {
   res.status(404).send('<h2 style="font-family:sans-serif; text-align:center; margin-top:50px;">404 - Page Not Found</h2><p style="text-align:center;"><a href="/">Return to NodePanel Dashboard</a></p>');
 });

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head', { pageTitle, metaDescription }) %>
+  <%- include('../partials/head', { pageTitle: typeof pageTitle !== 'undefined' ? pageTitle : 'LumenPortal', metaDescription: typeof metaDescription !== 'undefined' ? metaDescription : 'Campus Publication Platform' }) %>
 </head>
 <body class="public-body">
   <header class="site-header glass-panel">

@@ -48,20 +48,18 @@ const sessionOptions = {
   secret: process.env.SESSION_SECRET || "development-secret-change-me",
   resave: false,
   saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/studentverse",
+    collectionName: "sessions",
+    ttl: 60 * 60 * 24 * 7,
+  }),
   cookie: {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
-    maxAge: 1000 * 60 * 60 * 6,
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days persistent session
   },
 };
-
-if (process.env.NODE_ENV === "production") {
-  sessionOptions.store = MongoStore.create({
-    mongoUrl: process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/studentverse",
-    collectionName: "sessions",
-  });
-}
 
 app.use(session(sessionOptions));
 

@@ -43,14 +43,13 @@ exports.register = asyncHandler(async (req, res) => {
     return res.status(409).render("auth/register", {
       title: "Create account",
       form: req.body,
-      errors: { email: "This email already has an account." },
+      errors: { email: "This email address is already registered." },
     });
   }
 
-  const user = await User.create(req.body);
-  req.session.user = { id: user.id, name: user.name, email: user.email };
-  req.flash("success", "Account created. Welcome to your dashboard.");
-  res.redirect("/dashboard");
+  await User.create(req.body);
+  req.flash("success", "Registration successful! Please sign in with your email and password.");
+  res.redirect("/login");
 });
 
 exports.login = asyncHandler(async (req, res) => {

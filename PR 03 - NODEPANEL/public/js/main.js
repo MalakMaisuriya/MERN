@@ -1,18 +1,5 @@
-/**
- * ============================================================================
- * Project Name : NodePanel - Admin Dashboard Application
- * Repository   : https://github.com/MalakMaisuriya/MERN
- * File         : public/js/main.js
- * Description  : Client-side JavaScript providing live table search filtering
- *                and user action confirmation modals.
- * ============================================================================
- */
-
 document.addEventListener('DOMContentLoaded', () => {
-  /**
-   * Live Search Filter for Data Tables
-   * Filters visible table rows dynamically based on user input terms.
-   */
+  // Live Search Filter for Data Tables
   const searchInput = document.getElementById('tableSearch');
   const tableRows = document.querySelectorAll('.data-table tbody tr');
 

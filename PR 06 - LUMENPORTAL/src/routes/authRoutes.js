@@ -8,10 +8,14 @@ const asyncHandler = require('../utils/asyncHandler');
 const router = express.Router();
 
 router.get('/sign-in', requireGuest, authController.renderSignIn);
+router.get('/login', requireGuest, authController.renderSignIn);
 router.post('/sign-in', requireGuest, signInRules, handleValidation, asyncHandler(authController.signIn));
+router.post('/login', requireGuest, signInRules, handleValidation, asyncHandler(authController.signIn));
 
 router.get('/sign-up', requireGuest, authController.renderSignUp);
+router.get('/register', requireGuest, authController.renderSignUp);
 router.post('/sign-up', requireGuest, signUpRules, handleValidation, asyncHandler(authController.signUp));
+router.post('/register', requireGuest, signUpRules, handleValidation, asyncHandler(authController.signUp));
 
 router.post('/sign-out', authController.signOut);
 

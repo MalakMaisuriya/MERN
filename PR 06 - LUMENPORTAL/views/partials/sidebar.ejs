@@ -7,19 +7,19 @@
     </div>
   </div>
   <nav class="sidebar-nav">
-    <a href="/console" class="sidebar-link <%= activeNav === 'overview' ? 'is-active' : '' %>">
+    <a href="/console" class="sidebar-link <%= (typeof activeNav !== 'undefined' && activeNav === 'overview') ? 'is-active' : '' %>">
       <span class="nav-icon">▣</span> Overview
     </a>
-    <a href="/console/publications" class="sidebar-link <%= activeNav === 'publications' ? 'is-active' : '' %>">
+    <a href="/console/publications" class="sidebar-link <%= (typeof activeNav !== 'undefined' && activeNav === 'publications') ? 'is-active' : '' %>">
       <span class="nav-icon">◫</span> Publications
     </a>
-    <a href="/console/topics" class="sidebar-link <%= activeNav === 'topics' ? 'is-active' : '' %>">
+    <a href="/console/topics" class="sidebar-link <%= (typeof activeNav !== 'undefined' && activeNav === 'topics') ? 'is-active' : '' %>">
       <span class="nav-icon">◎</span> Topics
     </a>
-    <a href="/console/media" class="sidebar-link <%= activeNav === 'media' ? 'is-active' : '' %>">
+    <a href="/console/media" class="sidebar-link <%= (typeof activeNav !== 'undefined' && activeNav === 'media') ? 'is-active' : '' %>">
       <span class="nav-icon">▤</span> Media Vault
     </a>
-    <a href="/console/profile" class="sidebar-link <%= activeNav === 'profile' ? 'is-active' : '' %>">
+    <a href="/console/profile" class="sidebar-link <%= (typeof activeNav !== 'undefined' && activeNav === 'profile') ? 'is-active' : '' %>">
       <span class="nav-icon">◉</span> Profile
     </a>
   </nav>
