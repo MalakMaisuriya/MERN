@@ -1,0 +1,68 @@
+<!-- 
+  ============================================================================
+  Project     : NodePanel - Admin Dashboard Application
+  Repository  : https://github.com/MalakMaisuriya/MERN
+  View        : views/add-item.ejs
+  Description : Form view to register a new record into NodePanel database.
+  ============================================================================
+-->
+
+<%- include('partials/header', { title: 'Add Record', activePage: 'add-item', pageHeader: 'Create New Record', pageSubheader: 'Fill in details below to register a new item in NodePanel' }) %>
+
+<div class="panel-card" style="max-width: 700px; margin: 0 auto;">
+  <div class="panel-header">
+    <h2 class="panel-title">Item Configuration Form</h2>
+  </div>
+
+  <!-- New Record Registration Form -->
+  <form action="/items/add" method="POST">
+    <!-- Item Name Input -->
+    <div class="form-group">
+      <label class="form-label" for="name">Record / Item Name *</label>
+      <input type="text" id="name" name="name" class="form-control" placeholder="e.g. Analytics Server API, User Role Config..." required>
+    </div>
+
+    <div class="form-row">
+      <!-- Category Selection -->
+      <div class="form-group">
+        <label class="form-label" for="category">Category *</label>
+        <select id="category" name="category" class="form-control" required>
+          <option value="Services">Services</option>
+          <option value="Database">Database</option>
+          <option value="Security">Security</option>
+          <option value="Frontend">Frontend</option>
+          <option value="DevOps">DevOps</option>
+        </select>
+      </div>
+
+      <!-- Owner Input -->
+      <div class="form-group">
+        <label class="form-label" for="owner">Owner / Responsible Lead *</label>
+        <input type="text" id="owner" name="owner" class="form-control" placeholder="e.g. Alex Morgan" required>
+      </div>
+    </div>
+
+    <!-- Status Input -->
+    <div class="form-group">
+      <label class="form-label" for="status">Initial Status *</label>
+      <select id="status" name="status" class="form-control" required>
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+    </div>
+
+    <!-- Description Textarea -->
+    <div class="form-group">
+      <label class="form-label" for="description">Description / Operational Notes</label>
+      <textarea id="description" name="description" class="form-control" rows="4" placeholder="Add specific notes, operational metrics, or details..."></textarea>
+    </div>
+
+    <!-- Form Actions -->
+    <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px;">
+      <a href="/items" class="btn btn-secondary">Cancel</a>
+      <button type="submit" class="btn btn-primary">Create Record</button>
+    </div>
+  </form>
+</div>
+
+<%- include('partials/footer') %>

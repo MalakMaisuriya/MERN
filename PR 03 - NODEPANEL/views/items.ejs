@@ -1,0 +1,81 @@
+<!-- 
+  ============================================================================
+  Project     : NodePanel - Admin Dashboard Application
+  Repository  : https://github.com/MalakMaisuriya/MERN
+  View        : views/items.ejs
+  Description : Record Management page rendering tabular list of records with
+                live search, status toggle, edit modal links, and delete actions.
+  ============================================================================
+-->
+
+<%- include('partials/header', { title: 'Manage Items', activePage: 'items', pageHeader: 'Item Records Management', pageSubheader: 'Search, filter, edit, or remove records from your NodePanel database' }) %>
+
+<!-- Search & Top Action Bar -->
+<div class="controls-bar">
+  <div class="search-box">
+    <span>🔍</span>
+    <input type="text" id="tableSearch" placeholder="Search by name, category or owner...">
+  </div>
+
+  <a href="/items/add" class="btn btn-primary">
+    <span>➕</span> Add New Record
+  </a>
+</div>
+
+<!-- Main Records Data Table Card -->
+<div class="panel-card">
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Item Name</th>
+          <th>Category</th>
+          <th>Owner / Creator</th>
+          <th>Status</th>
+          <th>Created Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (items.length === 0) { %>
+          <tr>
+            <td colspan="7" style="text-align: center; padding: 32px; color: var(--text-muted);">
+              No records found. Click "Add New Record" to add your first entry!
+            </td>
+          </tr>
+        <% } else { %>
+          <% items.forEach(item => { %>
+            <tr>
+              <td><code>#<%= item.id %></code></td>
+              <td><strong><%= item.name %></strong></td>
+              <td><span class="badge badge-category"><%= item.category %></span></td>
+              <td><%= item.owner %></td>
+              <td>
+                <!-- Toggle Status Action Form -->
+                <form action="/items/status/<%= item.id %>" method="POST" style="display: inline;">
+                  <button type="submit" class="badge <%= item.status === 'Active' ? 'badge-active' : 'badge-inactive' %>" style="border:none; cursor:pointer;" title="Click to toggle status">
+                    <%= item.status %>
+                  </button>
+                </form>
+              </td>
+              <td><%= item.createdAt || 'Today' %></td>
+              <td>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <!-- Edit Record Button -->
+                  <a href="/items/edit/<%= item.id %>" class="btn btn-secondary btn-sm">Edit</a>
+                  <!-- Delete Record Action Form -->
+                  <form action="/items/delete/<%= item.id %>" method="POST" class="form-delete" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          <% }); %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

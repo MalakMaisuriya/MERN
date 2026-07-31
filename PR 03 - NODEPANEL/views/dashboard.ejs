@@ -1,0 +1,137 @@
+<!-- 
+  ============================================================================
+  Project     : NodePanel - Admin Dashboard Application
+  Repository  : https://github.com/MalakMaisuriya/MERN
+  View        : views/dashboard.ejs
+  Description : Main Overview Dashboard template displaying KPI metric cards,
+                recent managed items table, and real-time server event log.
+  ============================================================================
+-->
+
+<%- include('partials/header', { title: 'Dashboard', activePage: 'dashboard', pageHeader: 'Dashboard Overview', pageSubheader: 'Real-time metrics, node statistics and management summary' }) %>
+
+<!-- Key Performance Indicators (KPI) Stats Grid -->
+<div class="stats-grid">
+  <!-- Card 1: Total Managed Records -->
+  <div class="stat-card">
+    <div class="stat-info">
+      <span class="stat-label">Total Managed Records</span>
+      <span class="stat-value"><%= stats.totalItems %></span>
+      <span class="stat-trend positive">↑ Active Database</span>
+    </div>
+    <div class="stat-icon-wrapper icon-blue">📁</div>
+  </div>
+
+  <!-- Card 2: Active Items Count -->
+  <div class="stat-card">
+    <div class="stat-info">
+      <span class="stat-label">Active Items</span>
+      <span class="stat-value"><%= stats.activeItems %></span>
+      <span class="stat-trend positive">↑ <%= Math.round((stats.activeItems / (stats.totalItems || 1)) * 100) %>% Active</span>
+    </div>
+    <div class="stat-icon-wrapper icon-emerald">⚡</div>
+  </div>
+
+  <!-- Card 3: Inactive Items / Drafts -->
+  <div class="stat-card">
+    <div class="stat-info">
+      <span class="stat-label">Inactive / Drafts</span>
+      <span class="stat-value"><%= stats.inactiveItems %></span>
+      <span class="stat-trend warning">Pending review</span>
+    </div>
+    <div class="stat-icon-wrapper icon-amber">⏸️</div>
+  </div>
+
+  <!-- Card 4: Categories Count -->
+  <div class="stat-card">
+    <div class="stat-info">
+      <span class="stat-label">Categories Count</span>
+      <span class="stat-value"><%= stats.categoriesCount %></span>
+      <span class="stat-trend positive">Organized</span>
+    </div>
+    <div class="stat-icon-wrapper icon-purple">🏷️</div>
+  </div>
+</div>
+
+<!-- Dashboard Content Grid: Recent Activity & Event Log -->
+<div class="dashboard-row">
+  <!-- Recent Records Table Panel -->
+  <div class="panel-card">
+    <div class="panel-header">
+      <h2 class="panel-title">Recent Activity & Items</h2>
+      <a href="/items" class="btn btn-secondary btn-sm">View All Items →</a>
+    </div>
+
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Category</th>
+            <th>Owner / Author</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (recentItems.length === 0) { %>
+            <tr>
+              <td colspan="5" style="text-align: center; padding: 24px; color: var(--text-muted);">
+                No records created yet. Click "Add New Record" to get started.
+              </td>
+            </tr>
+          <% } else { %>
+            <% recentItems.forEach(item => { %>
+              <tr>
+                <td><strong><%= item.name %></strong></td>
+                <td><span class="badge badge-category"><%= item.category %></span></td>
+                <td><%= item.owner %></td>
+                <td>
+                  <span class="badge <%= item.status === 'Active' ? 'badge-active' : 'badge-inactive' %>">
+                    <%= item.status %>
+                  </span>
+                </td>
+                <td>
+                  <a href="/items/edit/<%= item.id %>" class="btn btn-secondary btn-sm">Edit</a>
+                </td>
+              </tr>
+            <% }); %>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- System Activity Logs Panel -->
+  <div class="panel-card">
+    <div class="panel-header">
+      <h2 class="panel-title">System Event Log</h2>
+    </div>
+
+    <div class="activity-list">
+      <div class="activity-item">
+        <div class="activity-bullet" style="background-color: var(--accent-emerald);"></div>
+        <div>
+          <div class="activity-desc">Express Server successfully booted on Port 3000</div>
+          <div class="activity-time">Just now</div>
+        </div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-bullet" style="background-color: var(--accent-blue);"></div>
+        <div>
+          <div class="activity-desc">NodePanel admin view engine loaded</div>
+          <div class="activity-time">1 min ago</div>
+        </div>
+      </div>
+      <div class="activity-item">
+        <div class="activity-bullet" style="background-color: var(--accent-purple);"></div>
+        <div>
+          <div class="activity-desc">System memory usage checked (Optimal)</div>
+          <div class="activity-time">5 mins ago</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

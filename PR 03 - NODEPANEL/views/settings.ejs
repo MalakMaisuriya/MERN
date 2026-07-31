@@ -1,0 +1,55 @@
+<!-- 
+  ============================================================================
+  Project     : NodePanel - Admin Dashboard Application
+  Repository  : https://github.com/MalakMaisuriya/MERN
+  View        : views/settings.ejs
+  Description : System configuration and administrator options view.
+  ============================================================================
+-->
+
+<%- include('partials/header', { title: 'Settings', activePage: 'settings', pageHeader: 'System Settings', pageSubheader: 'Configure NodePanel system options, defaults, and administrator preferences' }) %>
+
+<div class="panel-card" style="max-width: 700px; margin: 0 auto;">
+  <div class="panel-header">
+    <h2 class="panel-title">NodePanel Preferences</h2>
+  </div>
+
+  <!-- Settings Configuration Form -->
+  <form action="/settings" method="POST">
+    <!-- Application Title -->
+    <div class="form-group">
+      <label class="form-label" for="appName">Application Title</label>
+      <input type="text" id="appName" name="appName" class="form-control" value="NodePanel Control Center">
+    </div>
+
+    <div class="form-row">
+      <!-- Environment Selection -->
+      <div class="form-group">
+        <label class="form-label" for="environment">Environment Mode</label>
+        <select id="environment" name="environment" class="form-control">
+          <option value="development" selected>Development</option>
+          <option value="production">Production</option>
+        </select>
+      </div>
+
+      <!-- Server Port -->
+      <div class="form-group">
+        <label class="form-label" for="port">Default Server Port</label>
+        <input type="number" id="port" name="port" class="form-control" value="3000">
+      </div>
+    </div>
+
+    <!-- Admin Notice Notes -->
+    <div class="form-group">
+      <label class="form-label" for="notes">Admin Notice</label>
+      <textarea id="notes" name="notes" class="form-control" rows="3">NodePanel Admin is currently configured in local memory store mode.</textarea>
+    </div>
+
+    <!-- Form Submit -->
+    <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px;">
+      <button type="submit" class="btn btn-primary">Save Settings</button>
+    </div>
+  </form>
+</div>
+
+<%- include('partials/footer') %>
