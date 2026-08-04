@@ -1,0 +1,27 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/tasks" class="nav-brand">Task Manager</a>
+
+    <div class="nav-menu">
+      <% if (locals.user) { %>
+        <a href="/tasks" class="nav-link <%= typeof viewAll !== 'undefined' && !viewAll ? 'active' : '' %>">My Tasks</a>
+
+        <% if (locals.user.role === 'admin') { %>
+          <a href="/tasks?view=all" class="nav-link <%= typeof viewAll !== 'undefined' && viewAll ? 'active' : '' %>">All User Tasks</a>
+          <a href="/categories" class="nav-link">Categories</a>
+        <% } %>
+
+        <a href="/tasks/new" class="btn btn-primary">+ Add Task</a>
+
+        <div class="user-profile">
+          <span class="username"><%= locals.user.username %></span>
+          <span class="role-badge role-<%= locals.user.role %>">(<%= locals.user.role %>)</span>
+          <a href="/auth/logout" class="logout-btn">Logout</a>
+        </div>
+      <% } else { %>
+        <a href="/auth/login" class="nav-link">Login</a>
+        <a href="/auth/register" class="btn btn-primary">Register</a>
+      <% } %>
+    </div>
+  </div>
+</nav>

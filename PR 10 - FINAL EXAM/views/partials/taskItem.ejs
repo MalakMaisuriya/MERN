@@ -1,0 +1,38 @@
+<div class="task-card">
+  <div class="task-header">
+    <div>
+      <h3 class="task-title"><%= task.title %></h3>
+      <span class="category-tag"><%= task.category ? task.category.name : 'Uncategorized' %></span>
+    </div>
+    <span class="status-badge status-<%= task.status.toLowerCase().replace(' ', '-') %>">
+      <%= task.status %>
+    </span>
+  </div>
+
+  <% if (task.description) { %>
+    <p class="task-desc"><%= task.description %></p>
+  <% } %>
+
+  <div class="task-meta">
+    <% if (task.user) { %>
+      <div class="meta-item">
+        <span>Assigned to: <strong><%= task.user.username %></strong> (<%= task.user.role %>)</span>
+      </div>
+    <% } %>
+
+    <% if (task.dueDate) { %>
+      <div class="meta-item">
+        <span>Due Date: <%= new Date(task.dueDate).toLocaleDateString() %></span>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="task-actions">
+    <% if (locals.user && (locals.user.role === 'admin' || (task.user && (task.user._id ? task.user._id.toString() : task.user.toString()) === locals.user.id))) { %>
+      <a href="/tasks/edit/<%= task._id %>" class="btn-sm btn-edit">Edit</a>
+      <form action="/tasks/delete/<%= task._id %>" method="POST" class="inline-form" onsubmit="return confirm('Delete this task?');">
+        <button type="submit" class="btn-sm btn-delete">Delete</button>
+      </form>
+    <% } %>
+  </div>
+</div>

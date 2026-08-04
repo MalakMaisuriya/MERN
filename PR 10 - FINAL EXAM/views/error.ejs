@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> | TaskFlow</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <div class="container auth-container">
+    <div class="card text-center" style="max-width: 500px; padding: 2.5rem;">
+      <svg viewBox="0 0 24 24" width="56" height="56" stroke="var(--danger)" stroke-width="1.5" fill="none" style="margin-bottom: 1rem;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      <h2><%= title %></h2>
+      <p class="muted-text" style="margin: 1rem 0 1.5rem;"><%= message %></p>
+      <a href="/tasks" class="btn btn-primary">Return to Tasks</a>
+    </div>
+  </div>
+</body>
+</html>
