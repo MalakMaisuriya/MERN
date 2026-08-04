@@ -1,175 +1,145 @@
-# MERN Stack Projects
+# 🚀 MERN Stack Projects
 
-This repository contains the projects I built while learning and working with the MERN stack. The goal of these projects is to understand how frontend and backend work together, write clean code, and build complete web applications.
+This repository contains the projects I built while learning and working with the **MERN stack** (MongoDB, Express.js, React.js, Node.js). Each folder is a separate practice project (PR — Practical) that helped me understand how the frontend and backend work together, write clean code, and build complete web applications.
 
-Most of the projects follow the MVC pattern and include CRUD operations, database integration, routing, form validation, file uploads, and responsive user interfaces.
+Most projects follow the **MVC pattern** and include CRUD operations, database integration, routing, form validation, file uploads, and responsive user interfaces.
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-### Frontend
-
-- HTML5
-- CSS3
-- JavaScript (ES6)
+**Frontend**
+- HTML5, CSS3, JavaScript (ES6)
 - Bootstrap
 - React.js
 - EJS
 
-### Backend
-
+**Backend**
 - Node.js
 - Express.js
 
-### Database
-
+**Database**
 - MongoDB
 - Mongoose
 
-### Tools
-
-- Git
-- GitHub
+**Tools**
+- Git & GitHub
 - VS Code
 - Postman
 - npm
 
 ---
 
-## Projects
+## 📂 Projects
 
-### Movie Management System
+| # | Project | Description |
+|---|---------|--------------|
+| 01 | **First Server Setup** | Basic Node.js + Express server setup — the starting point of the MERN journey. |
+| 02 | **TaskBoard** | A task management app to practice CRUD operations and routing. |
+| 03 | **NodePanel** | A Node.js-based admin/control panel project. |
+| 04 | **StudentVerse** | Student management system with add, edit, delete, and search functionality. |
+| 05 | **MovieVault** | A full CRUD app to manage movie records, including poster uploads. |
+| 06 | **LumenPortal** | A portal-style app focused on authentication and session handling. |
+| 07 | **Nozha Admin Panel** | An admin dashboard with protected routes and user management. |
+| 08 | **ScholarTrack** | Academic/records tracking system built with MongoDB integration. |
+| 09 | **CineLedger** | A movie/entertainment record-keeping application. |
+| 10 | **Final Exam** | Final practical project combining everything learned across the course. |
 
-A complete CRUD application for managing movie records.
-
-Features
-
-- Add new movies
-- Update movie information
-- Delete movies
-- Upload movie posters
-- MongoDB database integration
-- Server-side validation
-- Responsive interface
-
----
-
-### Student Management System
-
-A student management application developed to practice CRUD operations and database management.
-
-Features
-
-- Add student records
-- Edit existing data
-- Delete records
-- Search functionality
-- Form validation
-- MongoDB integration
+> 📁 Open any folder above to see that project's own code and (where available) its setup instructions.
 
 ---
 
-### Admin Dashboard
-
-Dashboard application developed using Node.js and Express.
-
-Features
-
-- Authentication
-- Session management
-- Dashboard layout
-- User management
-- Protected routes
-
----
-
-## Folder Structure
+## 📁 Folder Structure
 
 ```
 MERN
 │
-├── Movie Management System
-├── Student Management System
-├── Admin Dashboard
+├── PR 01 - FIRST SERVER SETUP
+├── PR 02 - TASKBOARD
+├── PR 03 - NODEPANEL
+├── PR 04 - STUDENTVERSE
+├── PR 05 - MOVIEVAULT
+├── PR 06 - LUMENPORTAL
+├── PR 07 - nozha-admin-panel
+├── PR 08 - SCHOLARTRACK
+├── PR 09 - CINELEDGEER
+├── PR 10 - FINAL EXAM
+├── .gitignore
 └── README.md
 ```
 
 ---
 
-## Installation
+## ⚙️ Installation & Usage
 
-Clone the repository
-
+Clone the repository:
 ```bash
 git clone https://github.com/MalakMaisuriya/MERN.git
 ```
 
-Move into the project directory
-
+Move into the project directory:
 ```bash
 cd MERN
 ```
 
-Install dependencies
+Since each `PR` folder is an independent project, move into the one you want to run:
+```bash
+cd "PR 05 - MOVIEVAULT"
+```
 
+Install dependencies:
 ```bash
 npm install
 ```
 
-Run the application
-
+Run the application:
 ```bash
 npm start
 ```
 
+> ⚠️ Some projects may need a `.env` file for MongoDB connection strings or ports — check each project's own folder for details.
+
 ---
 
-## What I Practiced
-
-During these projects I focused on learning practical backend and frontend development, including:
+## 📚 What I Practiced
 
 - REST API development
 - Express routing
 - MongoDB with Mongoose
 - CRUD operations
-- Authentication
+- Authentication & session management
 - Middleware
-- File upload using Multer
+- File uploads using Multer
 - MVC architecture
 - Error handling
 - Form validation
 - Responsive UI development
-- Git version control
+- Git & GitHub version control
 
 ---
 
-## Future Improvements
+## 🔮 Future Improvements
 
-Some ideas I plan to implement in upcoming projects:
-
-- JWT authentication
-- Role-based authorization
-- Pagination
-- Search and filtering
-- API documentation
-- Deployment using Render
-- Docker support
-- Unit testing
+- [ ] JWT authentication
+- [ ] Role-based authorization
+- [ ] Pagination
+- [ ] Search and filtering
+- [ ] API documentation (Swagger/Postman)
+- [ ] Deployment (Render/Vercel)
+- [ ] Docker support
+- [ ] Unit testing
 
 ---
 
-## Author
+## 👤 Author
 
-Malak Maisuriya
-
+**Malak Maisuriya**
 BCA Student | Full Stack Web Development
+📍 Surat, Gujarat
 
-Surat, Gujarat
-
-GitHub
-https://github.com/MalakMaisuriya
+🔗 [GitHub](https://github.com/MalakMaisuriya)
 
 ---
 
-If you have any suggestions or feedback, feel free to create an issue or open a pull request.
+⭐ If you find this repository helpful, consider giving it a star!
+Suggestions and feedback are welcome — feel free to open an issue or pull request.
